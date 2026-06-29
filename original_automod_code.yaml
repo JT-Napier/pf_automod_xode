@@ -1,0 +1,1727 @@
+---
+### Clubhouse Rules and Karma Restrictions ###
+---
+
+# Contentious post restriction
+type: comment
+parent_submission:
+    id: ["1dlibiz", "1dlvpwp", "1dn81jg", "1dn9xlw"]
+author:
+    comment_subreddit_karma: "< 350"
+    is_contributor: false
+    satisfy_any_threshold: true
+action: remove
+action_reason: contentious topic thread
+     
+---
+
+# REMOVE comments by users with no/low subreddit karma on posts with restricted flairs (deployed by adding one of the "(Customize this - #)" flair to post) -- NOTE: flairs 2 and 3 have additional rules applied to them
+type: comment
+parent_submission:
+    flair_template_id: ["10957cb2-509d-11f0-ad4f-564e3ee1c625", "f6e8a9d8-509c-11f0-b2d0-e66e58ba1806", "24e1269e-509d-11f0-96fd-7a82e194fc07"]
+author: 
+    comment_subreddit_karma: '< 300'
+    is_submitter: false
+#    ~flair_template_id: [""] #can add a user flair id to use to exempt users by applying a specific user flair
+    ~name: ["flairassistant"]
+is_edited: false
+moderators_exempt: true
+action: remove
+action_reason: "Comment from a low/no subreddit karma user on a restricted post"
+
+---
+# (Customize this - 2) removes instead of filters some terms that are frequently racist (WIP)
+type: comment
+parent_submission:
+    flair_template_id: ["f6e8a9d8-509c-11f0-b2d0-e66e58ba1806"]
+body (regex, includes):
+    - 'well well well'
+    - 'well, well, well'
+    - 'stereotype'
+    - 'culture'
+    - 'future (doctors?|lawyers?)'
+action: remove
+action_reason: "Probably racist comment in a post with a restricted flair"
+
+---
+# (Customize this - 3) removes instead of filters some terms that are frequently transphobic (WIP)
+type: comment
+parent_submission:
+    flair_template_id: ["24e1269e-509d-11f0-96fd-7a82e194fc07"]
+body (regex, includes):
+    - 'mental illness'
+    - 'mentally ill'
+    - '(tr[a@]nn(y|ies?)|trans(v[eai]st[iy]te|mental)|she\W?males?|trapsexual)[s5]?'
+action: remove
+action_reason: "Probably transphobic comment in a post with a restricted flair"
+
+---
+### Karma Requirements ###
+---
+
+# Remove comments from new accounts (lvl 1)
+type: any
+author:
+    account_age: "< 5"
+action: remove
+action_reason: "account < 5 days old"
+
+---
+
+# Remove comments from new accounts (lvl 2)
+type: any
+author:
+    account_age: "< 10"
+action: remove
+action_reason: "account between 5-10 days old"
+
+---
+
+# Remove comments from new accounts (lvl 3)
+type: any
+author:
+    account_age: "< 15"
+action: remove
+action_reason: "account between 10-15 days old"
+
+---
+
+# Remove comments from accounts with low comment karma
+type: comment
+author:
+    comment_karma: "< 69"
+action: remove
+action_reason: "low comment karma (< 69)"
+
+---
+
+# Remove comments from accounts with low comment karma
+#type: comment
+#author:
+#    combined_karma: "< 420"
+#action: remove
+#action_reason: "low combined karma (< 420)"
+
+---
+
+# Remove comments from accounts with lowest CQS
+type: comment
+author:
+    contributor_quality: "< low"
+action: remove
+action_reason: "account with lowest cqs"
+
+---
+
+# Filter comments from accounts with low CQS if reported twice
+type: comment
+author:
+    contributor_quality: "< moderate"
+reports: 2
+action: filter
+action_reason: "comment from user with low cqs reported 2 times"
+
+---
+
+# Remove comments from accounts with negative subreddit karma
+#type: comment
+#author:
+#    comment_subreddit_karma: "< -99"
+#    is_contributor: false
+#action: remove
+#action_reason: -99 subreddit comment karma
+    
+---
+
+# Remove submissions from accounts with low combined karma
+type: submission
+author:
+    combined_karma: "< 690"
+action: remove
+action_reason: Submission by account with low karma (690 karma)
+
+
+---
+### Post Restrictions ###
+---
+
+# Automatically approve posts from mods
+type: any
+author:
+  is_moderator: true
+action: approve
+
+---
+
+type: link submission
+standard: direct image links
+action: remove
+comment: |
+    Your submission has been automatically removed from /r/PublicFreakout as it is an image.
+
+    Only video submissions are allowed on /r/PublicFreakout unless prior permission is obtained from the mod team.
+---
+
+# Allows users to make text posts that we can then approve. 
+type: text submission
+action: remove
+action_reason: text post
+
+---
+
+title+url:
+    - "racoon"
+    - "raccoon"
+
+action: remove
+action_reason: "Too many posts about this [{{match}}]"
+
+---
+
+#Potential problematic discussion
+#Just enter the exact title of the post, in quotes, and separate by a comma. If a post title ends in quotations, then this may not work.
+
+type: comment
+body+title (regex, includes-word): ['r/', 'https://', 'www\.', '\.com', '\.org', '\.net'] 
+parent_submission:
+  title: ["Shooting in Brussels"]
+action: remove
+action_reason: Monitored post. Potentially bad comments removed = [{{match}}]
+
+---
+
+# Removes áçtualpublicfreakoúts 
+title+body (regex): (^\s?|\s|[\'\",\.\?()/\[\-])((a|á)(c|ç)tu(a|á)l\s?publi(c|ç)\s?fre(a|á)ko(u|ú)ts?)(\s?$|\s|[\'\",\.\?()!/\]\-])
+action: remove
+action_reason: Advertising other subreddits
+
+---
+### User Restrictions ###
+---
+
+# Shadow ban annoying users
+# A_very_nice_guy_123 = Posting porn after demanding to be banned...screw you dude
+# N0tEasilyReplicated = Sending nasty DMs to /u/the_bananalord after participating in anti-reddit-mod witch hunt thread. 
+author:
+   name: ["A_very_nice_guy_123", "N0tEasilyReplicated"]
+action: remove
+
+---
+### Anti-Doxxing ###
+---
+
+# Remove Doxxing Names. Add names of individuals at high risk of doxxing based on current events
+#type: comment
+#body (includes):  ['MERSALLE HAIDER', 'ARIANNA RASOOLI', 'BREANNA PEELMAN', 'VIKTORIA OLEYNIK', 'JOEL MICHAEL SINGER', 'RYERSON FULLER', 'WYATT CLARKE', 'ROBERT KIRKPATRICK']
+#action: remove
+#action_reason: Remove doxxing information - Personal Name - {{match}}
+
+---
+
+# Remove content with keywords that are frequently used for harassment (e.g., individuals, businesses)
+title+body (regex): (joel.*(michael)?.*singer)
+action: filter
+action_reason: Potential TOS Violation (doxxing) [{{match}}]
+
+---
+
+# Remove comments that promote doxxing.
+type: comment
+body (includes):  ['make her famous', 'make him famous', 'make them famous', 'name and shame', 'do your thing']
+action: filter
+action_reason: Doxxing promotion - {{match}}
+
+---
+
+# Review websites (potential doxxing/harassment)
+type: comment
+domain+title+body (includes):
+    - "yelp.to"
+    - "gofundme.com"
+    - "tripadvisor.com"
+    - "g.page" # I think I may regret this one
+    - "us.linkedin.com"
+    - "linkedin.com"
+    - "instagram.com" # I think I may regret this one too, but I can't think of too many legit reasons for Insta to be posted in the comments
+    - "facebook.com" # Maybe safe because there's almost no reason to be posting facebook links in comments?
+    - "contactout.com"
+    - "archive.md" # People have been using this archive site as a doxxing site
+    - "realtor.com"
+action: filter
+action_reason: Potential TOS Violation (harassment) [{{match}}]
+
+---
+
+# Names (potential doxxing/harassment)
+title+body (regex): ((brad.boynton)|(\/swansboroumc)|(logan.?vandorn)|(ak.?lounge)|([Kc]rystal.?Barczak)|(breanna?.simas)|((nick|nicholas).?heald)|theantimaskersclub|Jason.?Raich|bill.?eichen|driven.?capital|nick?.larson|Thatdaneshguy|hanzo|lahanzo|here.(s|is).(his|her|their|there|they.?re).(youtube|insta(gram)?|fb|facebook|linked.?in)|someone.((please|pl[sz]).)?doxx?|rx0rcist|Braxton.?Bell|natalie.hage|griff?[ie]n.?Kinard|nat(e|hani[ea]l).?maloney|ann.?hiatt|amanda.?(nicole)?.?martinez|nbcuni.com|frank.?heinz|maria.?guerrero|darrell?.(e.?)?.?brooks|Galos.?Flame|GalosBellingham|jessie.?chambers|terrehaute.in.gov)
+action: filter
+action_reason: Potential TOS Violation (doxxing) [{{match}}]
+
+---
+
+type: comment
+body (includes): ['sc41gqos44e81', '1cmjBqo', '9P0kj8P'] 
+action:  remove
+action_reason:  check for dox
+
+---
+
+title+body (regex, includes): ['(?#INT)(\+(?![\s\(]*\d{4})|\b011)[\(\) ._-]{0,3}(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\b([\(\) ._-]{0,3}\d){5,14}\b', '(?#NA)\(?\b1?\d{3}[\) ._-]{1,3}\d{3}[ ._-]{1,3}\d{4}\b', '(?#UK)\b(?<!\bu/)(?<!\d\.)0(1\d\d(\s*\d){7}|1\d{3}(\s*\d){6}|1\d1(\s*\d){7}|11\d(\s*\d){7}|2\d(\s*\d){8}|169\s*77(\s*\d){4}|1\d{3}(\s*\d){5}|3\d\d(\s*\d){7}|7\d(\s*\d){8}|8\d\d(\s*\d){6,7})\b']
+~body (regex): ['(0118\W+999\W+8[18]1|999\W+119\W+7253)', '(?<=\$)\d+(\.\d\d)?[^\w,.]*[+-][^\w,.]*\d+', '(https?://|www\.)\S*([\(\)._-]{0,3}\d){5}\w*', '000.000.0000', '1024\W+2048', '111.111.1111', '222.222.2222', '281\W+330.8004', '505\W+503.4455', '678.999.8212', '800\W+273.8255', '800\W+799.7233', '999.999.9999', '\d*1\W?2\W?3\W?4\W?5\W?6\W?7\W?8\W?9\d*', '\d{3}\W+555\W\d{4}', '\d{3}\W+867.5309', '\w*\d[\)\s]*=\W*\d\w*']
+action: filter
+author:
+  is_contributor: false
+  is_moderator: false
+action_reason: "Phone number detected (rule 1) [{{match}}]"
+
+---
+
+# IPv4 Address Detector
+
+    title+body (regex): ['\b(?!(?#RANGES)(10\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|192\.168\.)|(?#SINGLES)(1\.0\.0\.1|1\.1\.1\.1|1\.2\.3\.4|8\.8\.4\.4|8\.8\.8\.8|9\.9\.9\.9|127\.0\.0\.1|149\.112\.112\.112|208\.67\.220\.220|208\.67\.222\.222)\b)((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\b']
+    action: filter
+    action_reason: "IPv4 address detected (rule 1) [{{match}}]"
+
+---
+
+#title+body (regex): ['\W[A-Za-z]?\d{1,6}[A-Za-z]? (E(.|ast)?|W(.|est)?|N(.|orth)?|S(.|outh)? )?[\p{Pi}\p{Pf}]?\w+( \w+)?[\p{Pi}\p{Pf}]? (st(reet)?|ave(enue)?|r(oa)?d|dr(ive)?|c(our)?t|blvd|boulevard|lane|ln|highway|hwy|route|rt)']
+#~title+body#whitelist: [123 main st, 123 main street, 221b baker st, 221b baker street, day drive, gb drive, hour drive, minute drive, second drive, tb drive, week drive, wheel drive]
+#action: remove
+#action_reason: "Street address detected [{{match}}]"
+
+---
+### Bad Words and Hate Speech ###
+---
+
+# Removes variations of "retard"
+title+body (regex): (^\s?|\s|[\'\",\.\?()\/\[\-])(((lib|re).?)?tard(ed|s|ation)?)(\s?$|\s|[\'\",\.\?()!\/\]\-])
+action: remove
+action_reason: Rule 4 [{{match}}] by {{author}}. Their comment- {{body}}
+
+---
+
+# Removes phrase "sofa king we todd did"
+title+body (regex): (?i)sofa[\s\W]*king[\s\W]*we[\s\W]*todd[\s\W]*did
+action: remove
+action_reason: Rule 4 [{{match}}]
+
+---
+
+#potential hatespeech; context-dependent 
+    type: any
+    priority: 1
+    title+body+flair_text (includes-word, regex): ['well well well', 'wellx3', 'what do we have here', 'pajeets?']
+    action: filter
+    action_reason: Hatespeech detected - [{{match}}]. {{author}}. Their comment- {{body}}
+    moderators_exempt: false
+
+---
+
+# hate speech 1
+type: any
+priority: 1
+title+body+flair_text (includes-word, regex):
+  - '(nigg?(er|a)?|niggers|nibb?(er|a)?|nibbers|niU+1F171U+1F171?(er|a)?|niU+1F171U+1F171ers|k[iy]ke|beaner|spick?|wetback|^[gobbledy]gook|d[iy]ke|retard|trann(y|ie)?)s?'
+  - '(sand)?n[aei]+g+(ger|ga|a)[sz]*'
+  - 'd[ieao]+nd[ou]+([mn]+[oaiu][phf]+[eioau][mn]+[sz]*)?'
+  - 'spick[sz]+'
+  - 'go+ks?'
+  - 'chinks?'
+  - 'honk(y|ie)s?'
+  - '(afri)?coon'
+  - '(towel|diaper).?heads?'
+  - 'mudslimes?'
+  - 'muzzies?'
+  - 'k[iy]kes?'
+  - '(f(?!g\b|gts\b)|ph)[\x40a]?gg?([e0aio]?tt?)?(ed|in[\x27g]?|r?y)?s?'
+  - 'd[iy]ke'
+  - 'k.i.k(e|e.)'
+  - 'n.i.g.g.e.(r|r.)'
+  - 'auti(sm|stic|st|stically)s?'
+  - 'mayate'
+  - 'kys'
+  - '2550c01'
+  - 'rittenhouse'
+  - 'zionazis?'
+action: remove
+action_reason: Hatespeech flair - [{{match}}]
+moderators_exempt: false
+
+---
+
+#filter homo
+type: any
+moderators_exempt: false
+body+title (regex): ["(?i)\\bhomo(?!\\w*(?:genous|phobia|phobe|phobes|sapien|sapiens|phobic)\\b)\\w*\\b"]
+~body+title (includes, regex): ["homosexual couples?"]
+action: filter
+action_reason: "Potential filtered term: {{match-1}}"
+
+---
+
+type: comment
+body (regex, full-text):
+  - "fucking animals"
+  - "[a-zA-Z]+ (you|up|off?) (shill|shit)"
+  - "(suck|eat) (a|my) (dick|cock)"
+  - "(go)? (kill|fuck) yourself"
+  - "(shill|CTR|cuck|fag) (alert|spotted)"
+  - "CTR/Shareblue"
+  - "They [a-zA-Z]+ shill"
+  - "[s ]+[h ]+[i ]+[l ]+([s ]+?|[z ]+?)?"
+  - "([a-zA-Z]+|CTR / Shariablue) shill"
+  - "You (goyim|goy|fag|bitch|cunt|prick|whore|slut|nigger|dick|faggot(s)?|pussy|cuck|loser)s?"
+  - "[a-zA-Z]+? eat shit [a-zA-Z]+?"
+  - "You mad (aspie|asshole|autist|bimbo|bitch|bitche|butthead|child (rapist|molester)|crazy|cuck|cunt|dick|(dick|cock) (sucker)?|dipshit|dumb|evil|fag|faggot(s)?|fat|gay|goy(im)?|$hill|idiot|knob|lying|moron|nigger|paid clicker|paid poster|pedo|prick|pussy|rapist|retard|retarded|schill|schizophrenic|scumbag|shareblue|shariabloo|shariablue|sharia blue|shill|shithead|sick|SJW|slut|stupid|s-word|whore|worthless|[s ]+[h ]+[i ]+[l ]+([s ]+?|[z ]+?))"
+action: remove
+action_reason: "Abusive language [{{match}}]"
+
+---
+
+# Abusive language filter
+type: comment
+body (includes, regex): [ "OP[^\\.?!]+[ ]is[ ](a|an)[ ](aspie|asshole|autist|bimbo|bitch|bitche|butthead|child (rapist|molester)|crazy|cuck|cunt|dick|(dick|cock) (sucker)?|dipshit|dumb|evil|fag|faggot(s)?|fat|gay|goy(im)?|$hill|idiot|knob|lying|moron|nigger|paid clicker|paid poster|pedo|prick|pussy|rapist|retard|retarded|schill|regarded|schizophrenic|scumbag|shareblue|shariabloo|shariablue|sharia blue|shithead|sick|SJW|slut|stupid|s-word|whore|worthless|zionazi|[s ]+[h ]+[i ]+[l ]+|bag of (dicks|cocks)|troll|loser|creep)" ]
+action: remove
+action_reason: "Abusive language [{{match}}]"
+
+---
+# Abusive language filter 2
+type: comment
+body (includes, regex): [ "Why (cant|can't) you stop (being|sucking)? (a|an)? ([a-zA-Z]+)? (aspie|asshole|autist|bimbo|bitch|bitche|butthead|child (rapist|molester)|crazy|cuck|cunt|dick|(dick|cock) (sucker)?|dipshit|dumb|evil|fag|faggot|fat|gay|goy(im)?|$hill|idiot|knob|lying|moron|nigger|paid clicker|paid poster|pedo|prick|pussy|rapist|retard|retarded|schill|schizophrenic|scumbag|shareblue|shariabloo|shariablue|sharia blue|[s ]+[h ]+[i ]+[l ]+([s ]+?|[z ]+?)|shithead|sick|SJW|slut|stupid|s-word|whore|worthless)s?" ]
+action: remove
+action_reason: "Abusive language [{{match}}]"
+
+---
+
+# OP is a X Filter
+body+title (regex, includes-word):
+  - 'op( is)?( definitely)? a (literal )?(f|ph)[ae3!#%]gg?s?(.t?ts?z?|.t?ted|.t?try|y)?'
+  - 'op is( a)? (failed abortion|retard(ed)?|sad little bitch|stupid)'
+  - 'stupid op'
+  - 'op (you|u) (are|r) an? (asshole|shitlord)'
+  - 'op has (aids|ebola)'
+
+action: remove
+priority: 9000
+action_reason: 540. Filtered due to [{{match}}]
+
+---
+
+# Potential violence
+title+body (regex): (^\s?|\s|[\'\",\.\?()\/\[\-])((?P<callToViolence>((w|sh)ould(a|\'?ve| have|.?of)?|want|need|just|deserve[sd]?) (to)?.?(be)?)\s?(?P<violentAction>(castrate(ed)?|kill(ed)?|knock(ed)?|punch(ed)?|raped?|r[au]n (him|them|her|it)?.?(over|down)|shoo?t)|stomp(ed)?).?(?P<actionTarget>(him|her|them|you|u|it|that|the cops?))?|(shoot the cops?)|(shoot (him|her|them) in))(\s?$|\s|[\'\",\.\?()!\/\]\-])
+~title+body (regex): ["knock on doors?", "knock on the", "knocked on the", "knocked on doors?"]
+action: filter
+action_reason: Potential TOS Violation (violence) [{{match}}]
+
+---
+
+# Potential violence (version two)
+title+body (regex): (^\s?|\s|[\'\",\.\?()\/\[\-])((?P<callToViolence>((w|sh)ould(a|\'?ve| ?have|.?of)?|I.?d|want|need|just|deserve[sd]?|start))(?P<fillerCharacters>[^.,;?]*)?(?P<violentAction>(beat(ing)?|bomb(ing)?|castrate(ed)?| hit|kick(ed)?|kill(ed)?|knock(ed)?|punch(ed)?|raped?|r[au]n (him|them|her|it)?.?(over|down)|shoo?t)|stomp(ed)?)(?P<optionalTarget>(?!.)*(him|her|them|it|chick).?)?|(shoot the cops?)|(shoot (him|her|them) in))(\s?$|\s|[\'\",\.\?()!\/\]\-])
+reports: 1
+action_reason: Potential TOS Violation (violence v2) [{{match}}]
+
+---
+
+# Transphobia
+title+body (regex): 
+    - "mentally.(ill|retard(ed)?|deluded) (wo)?men (who|that) dress (up|like)?.?(wo)?men"
+    - "dudes? in drag"
+    - "put wigs on"
+    - "call themselves (wo)?men.?.?but"
+    - "It's MA'AM"
+    - "ok groomer"
+    - "groomer"
+    - "so a?.?((wo?)m[ae]n|chicks?)"
+    - "so.? a dude"
+    - "that'?s a (man|woman)"
+    - "(dudes?|chicks?) with a?.?wigs?"
+action: filter
+action_reason: "Rule 4 (transphobia) [{{match}}]"
+
+---
+
+# Image posts
+type: submission
+domain: [i.redd.it, imgur.com]
+action: remove
+
+---
+
+type: submission
+body+title+url (regex, includes): ['.(gifv?|jpe?g|png)\b', 'gallery', 'image']
+action: remove
+action_reason: "image [{{match}}] post"  
+
+---
+
+# Evil Word Filter 
+
+type: comment
+body (includes): ['fag', 'nigger', 'niggas', 'tranny', 'slut', 'hoodrat', '13%', "13 %", "13/50", "13/52", 'Dindu', 'nuffin', 'never relax','we wuz', 'n**ger']
+action: filter
+action_reason:  Bigotry detected [{{match}}] by {{author}}. Their comment- {{body}}
+
+---
+
+# Islamophobia Filter
+
+type: comment
+body (includes-word, regex): ['religion of peace', 'what a peaceful religion', 'mostly peaceful', 'peaceful religion', 'Salami lickers?', 'goat fuckers?', 'towelheads?', 'towel heads?', 'terrorist rags?']
+action: filter
+action_reason:  Bigotry detected [{{match}}] by {{author}}. Their comment- {{body}}
+
+---
+
+# Islamophobia Filter - Terrorist
+#type: comment
+#body (includes-word, regex):
+   - 'terrorist'
+#~body (includes-word, regex):
+   - 'terrorist organization'
+   - 'terrorist group'
+#body_longer_than: 50
+#action: filter
+#action_reason:  "Removed word [{{match-1}}]"
+# this is a duplicate rule that covers under and over 50. Only one is needed.
+---
+
+# Islamophobia Filter - Terrorist
+type: comment
+body (includes-word, regex):
+   - 'terrorist'
+~body (includes-word, regex):
+   - 'terrorist organization'
+   - 'terrorist group'
+action: remove
+action_reason:  "Removed word [{{match-1}}]"
+
+---
+
+# Antisemitism Filter
+
+type: comment
+body (includes-word, regex): 
+    - "god's chosen people"
+    - "god's chosen ones"
+    - "greedy jews?"
+    - "3000 years ago"
+    - "3000 year ago"
+    - "3,000 year ago"
+    - "3.000 year ago"
+    - "3,000 years ago"
+    - "3.000 years ago"
+    - "3000 yr ago"
+    - "3000 yrs ago"
+    - "3000yrs ago"
+    - "3000yr ago"
+    - "3 thousand year ago"
+    - "3 thousand years ago"
+    - "promised to him 3000"
+    - "promised to them 3000"
+    - "promised to her 3000"
+    - "jewe?ry"
+    - "k[iy]+kes?"
+action: filter
+action_reason:  "Possible antisemitism: [{{match}}]"
+
+---
+    type: comment
+    author:  
+        ~name: ["TotesMessenger"]     
+    title+body(regex, includes-word): ["clogwog","darkie","darky","datnigga","fuckwhore","fudgepacker","japcrap","jigaboo","jiggabo","jiggy","jijjiboo","jimfish","junglebunny","kaffer","kaffir","kaffre","kafir","kanake","kigger","kike","heeb","hindoo","kyke","koon","kraut","nastyho","nastyslut","nastywhore","nigga","niggah","niggards","niggaz","nigger","niggerhead","niggerhole","niggers","niggers","niggor","nigguh","niggur","niglet","nignog","nigr","nigra","ontherag","poon","poontang","poorwhitetrash","popimp","porchmonkey","pornprincess","polack","pommie","pommy","sandnigger","whitenigger","whop","whorefucker","wigger","wop","zigabo","zipperhead","trisexual","whigger","skankbitch","skankfuck","skankwhore","skanky","skankybitch","skankywhore","mulatto","fuckpig","cockcowboy","cameljockey","carpetmuncher","nudger","shitdick","sooty","spaghettibender","spaghettinigger","twobitwhore","towelhead","tuckahoe","spick","spig","spigotty","spik","hymie","roundeye","raghead","russki","russkie","slopehead","slutting","slutwear","cockqueen","piker","pikey","piky","wetback","puntang","tarbaby","timbernigger","mufflicker","muncher","cuntlick","cuntlicker","cuntlicking","fannyfucker","dyke", "fatfuck","fatfucker","wetback","thot"]
+    ~title+body: ["suspicious", "despicable", "suspicion", "spoon", "spikes?", "spikes", "inconspicuous", "lampooning", "spicy", "animal", "animals"]
+    action: filter
+    priority: 9000
+    action_reason: 440. nasty words filter - [{{match}}] - {{author}}. Their comment- {{body}}
+---
+
+  #Profanity remove
+    body+title (regex, includes-word): ['autists?', 'lesbos?', 'femi[\s_-]*nazis?', 'shit[\s_-]*lords?', '(chick|girl|women|woman)s? with a (cock|dick|penis|slong)s?']
+    ~body+title#good (regex, includes-word): ['thug rose', 'rose thug']
+    action: filter
+    action_reason: 450. Profanity report [{{match}}]
+    
+---
+
+#Profanity remove
+body+title (regex, includes-word):
+   - '(f|ph)[aei3!"#€%&]gg?s?([eo0a!"#€%&]ts?z?|.ted|.try|y)?'
+   - '(f|ph).gg?[\s_-]*magnet'
+   - 'fucking?[\s_-]*retard(ed)?s?'
+   - '(f|ph)ucking?[\s_-]*cunts?'
+   - 'lesbos?'
+   - 'carpet[\s_-]*munchers?'
+   - '(cock|dick)[\s_-]*suckers?'
+   - 'downvoting? (cunt|fagg?.t)'
+   - 'stop being a (f|ph).gg?s?(.ts?z?|.ted|.try)?'
+   - '(f|ph).gg?s?([ioea13!#€%&]ts?z?|.ted|.try|y)?'
+   - '(f|ph).gg?s?(.ts?z?|.ted|.try|y)? nut[\s_-]*huggers?'
+   - '(moral|true|jealous|red?dit)[\s_-]*(f|ph).gg?s?(.ts?z?|.ted|.try|y)?'
+   - 'ghey(ness)?s?'
+   - 'fuck?[\s_-]*wits?'
+   - 'fucking? homo'
+   - 'potato[\s_-]*(f|ph).gg?s?(.ts?z?|.ted|.try|y)?'
+   - 'gay as (fuck|shit)'
+   - 'shut up ugly'
+   - '(quit|stop) being( such)? a (f|ph).gg?s?(.ts?z?|.ted|.try|y)?'
+   - 'fucking? cucks?'
+   - '(ur|your) gay'
+   - 'pretty homosexual'
+   - '(are )?(you|u) (guys )?homo'
+   - 'bunch of homos'
+   - 'gay ass'
+   - 'fake and gay'
+   - 'poofs?'
+   - 'dont be gay'
+   - 'he-bitch'
+   - 'guyborg'
+   - '(mutant|old) trann(ies|y)'
+   - "(you|you'?re?|u r|ur?)( are)? fuc?k?ki?ng? gay"
+   - "fuck you til you love me"
+   - 'zionazis?'
+   - '^\W*typical\W*$'
+action: remove
+action_reason: 460. Profanity filter [{{match}}]
+
+---
+
+#Racism Filter
+body+title (regex, includes-word):
+   - '(curry|feather|sand)?[\s_-]*[Ññn][i3!#€%&ea]gg?.?(h|r|[e3]tt?e?|es?se?|roni|er?|a?|n.gg?|.ro?|r.e?)s?'
+   - 'ni?[*][*]*g?g?a?'
+   - '(curry|feather|sand)[\s_-]*nig?gers?'
+   - 'coons?'
+   - '(black|dark)(e?y|ies?)'
+   - '(shit|mud)[\s_-]*skins?'
+   - 'tar[\s_-]*bab(y|i?e)s?'
+   - '(porch|surrender)[\s_-]*monke?(y|i?e)s?'
+   - 'jig?g[aer](boo?|b00?)s?'
+   - 'jigg?a? a boo?s?'
+   - 'b(e?ae?|ee)ners?'
+   - 'ape[\s_-]*fricans?'
+   - 'coon[\s_-]*town'
+   - 'camel[\s_-]*jocki?e?y?s?'
+   - 'wogs?'
+   - 'g(ooks?|00ks?)'
+   - 'pak(i|ee)s?'
+   - 'heebs?'
+   - 'kraut?'
+   - 'japs?'
+   - 'wops?'
+   - 'spick?s?'
+   - 'abos?'
+   - 'boong?s'
+   - 'chinks?'
+   - 'kaff?irs?'
+   - '(towel|rag)[\s_-]*heads?'
+   - 'pol[\s_-]*facts?'
+   - 'groids?'
+   - 'moll[iy](c|cyrus)'
+   - '@skyeedooee'
+   - 'skye'
+   - 'wet[\s_-]*backs?'
+   - 'chimp[\s_-]*out'
+   - 'chimpin'
+   - 'chimping'
+   - 'chimp'
+   - 'she[\s_-]*boons?'
+   - 'race[\s_-]*traitor'
+   - 'cotton pick(er|ing)'
+   - 'welfare queens?'
+   - 'dindus?'
+   - 'nuffins?'
+   - "din'?t do nuf?fins?"
+   - 'din[\s_-]*d[uo0][\s_-]*nuf?fins?.?'
+   - 'nigger with an? attitude problem'
+   - 'mignorant'
+   - 'holohoax'
+   - "welfare queen'?s?"
+   - 'j[e3]w[\s_-]*bags?'
+   - 'black apes?'
+   - 'mudd?[\s_-]*(sharks?|slimes?)'
+   - '(down|up)jew(ed)?'
+   - 'NiggaMurder'
+   - 'niggativity'
+   - 'white[\s_-]*(powers?|rights?|pride)'
+   - '(anglo[\s_-]*saxon|brown|caucasian|viking)[\s_-]*pride'
+   - 'great[\s_-]*apes?'
+   - 'hood[\s_-]*rats?'
+   - 'boons?'
+   - 'pomm(y|e)'
+   - 'ching chong'
+   - 'allahu? ac?kbar'
+   - 'adelaide[\s_-]*institute'
+   - 'cockroach(es)?'
+   - 'monkey'
+   - 'degenerate'
+   - 'white lives matter'
+   - 'usual suspects?'
+   - 'beat the allegations?'
+   - 'never relax'
+   - 'always them'
+   - 'the fatigue is real'
+   - 'black fatigue'
+   - 'doctors and engineers'
+   - 'offended by everything'
+   - 'ashamed of nothing'
+   - 'entitled to everything'
+   - 'contributing nothing'
+   - 'contributes nothing'
+   - 'watermelon'
+   - 'knickers'
+   - 'knickas'
+parent_submission:
+   ~body+title (regex, includes-word): ['naga', 'nage', 'nogi']
+action: filter
+action_reason: 480. Racism Filter [{{match}}] {{author}}. Their comment- {{body}}
+
+---
+
+#Racism Filter - typical + race/nationality
+#Note that "typical" by itself (no words before or after) is set to remove within the "#Profanity remove" rule above which runs before other rules that filter "typical"
+type: comment
+body+title (regex, includes-word):
+   - 'typical black'
+   - 'typical chinese'
+action: filter
+action_reason: (Automod rule in testing) "typical" + race/nationality [{{match}}]
+
+---
+
+#Racism Filter - character counter (less than 30 characters) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'typical'
+   - 'steretoype'
+   - 'animal'
+   - 'animals'
+body_shorter_than: 30
+action: filter
+action_reason: (Automod rule in testing) Potential racism + less than 30 characters [{{match}}] - {{author}}. Their comment- {{body}}
+
+---
+
+#Racism Filter - potentially racist terms + top level comments (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'typical'
+   - 'stereotype'
+is_top_level: true
+action: filter
+action_reason: (Automod rule in testing) Potential racism + top level [{{match}}]
+
+---
+
+#Racism Filter - potentially racist terms (other) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'typical'
+   - 'stereotype'
+action: report
+action_reason: (Automod rule in testing) Potential racism + not less than 30 characters nor top level [{{match}}]
+
+---
+
+#Racism Filter - potentially racist terms + character count (100+ characters) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'shithole'
+   - 'savages'
+   - 'filth'
+   - 'subhumans?'
+   - 'sub humans?'
+body_longer_than: 100
+action: filter
+action_reason: (Automod rule in testing) [{{match}}] + more than 100 characters
+
+---
+
+#Racism Filter - potentially racist terms + character count (50+ characters) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'culture'
+   - 'shithole'
+   - 'savages'
+   - 'filth'
+   - 'subhumans?'
+   - 'sub humans?'
+body_longer_than: 50
+action: filter
+action_reason: (Automod rule in testing) [{{match}}] + more than 50 characters
+
+---
+
+#Racism Filter - potentially racist term (testing some terms with character requirements) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'culture'
+   - 'shithole'
+   - 'savages'
+   - 'filth'
+   - 'subhumans?'
+   - 'sub humans?'
+action: remove
+action_reason: culture + less than 50 characters
+
+---
+
+#Racism Filter - testing changes (filters after 2 reports)
+type: comment
+body+title (regex, includes-word):
+   - 'KKK'
+   - 'white(-| )national(ist)?s?'
+   - '50%'
+   - '50 percent'
+   - 'blm'
+   - 'black lives matter'
+   - 'superior race'
+reports: 2
+action: filter
+action_reason: (Automod rule in testing) Check for racism {{match}}
+
+---
+
+#Transphobia Filter - testing changes (filters after 2 reports)
+type: comment
+body+title (regex, includes-word):
+   - '40%'
+   - 'trap'
+reports: 2
+action: filter
+action_reason: (Automod rule in testing) Check for transphobia {{match}}
+
+---
+
+# Profanity removal
+body+title (regex, includes-word):
+  - 'fuck[\s_-]*tards?'
+  - "shut the fuck up"
+  - "deserve to be beaten"
+  - "fat as fuck"
+  - 'shut up (prick|pussy)'
+  - 'dick[\s_-]*wads?'
+  - 'troglodyte'
+  - 'dick farther'
+  - 'down your throat'
+  - "cuntiness"
+  - 'stupid fuck[ _-]*tards?'
+  - "fuck jesus"
+  - "(you|u) dildo"
+  - "heavily retarded"
+  - "cum"
+  - "saying stupid shit"
+  - "(sit down|sit) on my face"
+  - 'mongoloids?'
+
+~body+title (regex, includes-word):
+  - 'stockton (slap )?m(o|u)th(er|a)[\s_-]*f[#*u](c|k)k(a|er)s?.?'
+  - '(bad|badass|dominating|heel hook| jones|surprised?,?|surprised th(em|ose)|tough|209) m(o|u)th(er|a)[\s_-]*f[#*u](c|k)k(a|er)s?.?'
+  - '(shes|hes|she|he)( is)? a m(o|u)th(er|a)[\s_-]*f[#*u](c|k)k(a|er)s?'
+  - "(he's|she's)( is)? a m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s?"
+  - "where (you|u) at,? m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s?"
+  - 'knocks? m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s? out'
+  - "(kicks|knees) can be a m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s?"
+  - 'fuck off this thread'
+
+action: remove
+action_reason: 490. Profanity [{{match}}]
+
+---
+
+# Filter, Kill yourself etc
+body+title (regex, includes-word):
+  - "(bitch|cunt) die"
+  - "(butthurt|whiny) little (woman|girl|man|boy|nerd)"
+  - "(choke|hang|kill|killing|shoot|strangle) your?(selfs?|selves?)"
+  - "(dick|c[ao]ck)s? tastes?"
+  - "(drown|suffocate) yourself"
+  - "(hope|wish) (you|it|s?he|they) (dies?|all die|gets? ebola)"
+  - "(lick|suck|gobble) a (dick|cock)"
+  - "(you|u) (cunt|cuck)"
+  - "(you|u) are a moron"
+  - "consider suicide"
+  - "death to (you|u)"
+  - "deserve to (die|be killed|be shot)"
+  - "eat a (bullet|gun)"
+  - "go play in traffic"
+  - "hope (u|you) get (aids|ebola)"
+  - "jump off a cliff"
+  - "jump off a( tall)? (bridge|building)"
+  - "please commit suicide"
+  - "run with something sharp and trip"
+  - "suck a (fat|big|thick) (cock|cack|dick)"
+  - "throw (them|yourself) into the (lake|ocean|sea)"
+action: remove
+priority: 9000
+action_reason: 500. Filtered due to [{{match}}]
+
+---
+
+# Cunt
+body+title (regex, includes-word):
+  - "(annoying|brain[\\s_-]*dead|chubby|creepy|cry[\\s_-]*baby|deaf|dumb|dumbster|dumpster|fake|fat|fucking?|fake|ignorant|imm?ature|inbred|liberal|libtard|miserable|obnoxious|pointless?|pompous|pretentious|stupid|timid|thunder|turbo|upp?itt?y|uptight|weak willed|whiny)[\\s_-]*(cunts?|cunty)"
+  - "(ur|u r|you are|you'?re?) a cunt"
+  - "(you|u) are being a (cunt|twat)"
+  - "[ck]unt[\\s_-]*(bag|nazi)"
+  - "cunt ass whore"
+  - "cunt[\\s_-]*(bags?|rags?)"
+  - "cunts? about it"
+  - "cunts? like (you|u)"
+  - "cunty title"
+  - "don'?t be a? cunt"
+  - "dumb( fucking?)? (twat|cunt)"
+  - "sanctimonious cunts?"
+  - "spastic (cunt|twat)s?"
+  - "you're a cunt"
+  - "you're being a (cunt|twat)"
+action: remove
+priority: 9000
+action_reason: 510. Filtered due to [{{match}}]
+    
+---    
+
+# Cock Penis Related
+body+title (regex, includes-word):
+  - "(ball|cum|jizz|semen|sperm|cock) (gobb?lers?|guzz?lers?)"
+  - "(cocks?|dicks?|penis) out of your"
+  - "(cocks?|dicks?|penis|slongs?) in your mouth"
+  - "(cocks?|dicks?|penis|slongs?)[\\s_-]*breath"
+  - "(cock|dick)[\\s_-]*sucking?"
+  - "(cock|dick|penis|slong)[\\s_-]*holes?"
+  - "(cum|jizz|semen|sperm) ch[au]mps?"
+  - "(dicks?|cocks?|penis) down your throat"
+  - "(dicks?|cocks?|penis) in your a(zz|ss)hole"
+  - "(dicks?|cocks?|penis) out of your mouth"
+  - "(dicks?|cocks?|penis) your ass"
+  - "(dick|cock|penis) chopped off"
+  - "blowing bubbles with his (cum|jizz|semen|sperm)"
+  - "burning? dick[\\s_-]*hole"
+  - "cock out of (her|his) mouth"
+  - "cumshot"
+  - "eat a (dicks?|cocks?|penis)"
+  - "eat a huge bag of (cocks?|dicks?|penis|slongs?)"
+  - "forced to suck"
+  - "fuck did you cocks?"
+  - "how small is your (cock|dick|penis)"
+  - "she still sucking"
+  - "stop sucking? (cocks?|dicks?|penis|slongs?)"
+  - "suck dick bro"
+  - "suck his (cocks?|dicks?|penis|slongs?)"
+  - "wanna see my (cock|dick|penis|slong)"
+  - "want some of my (cock|dick|penis)"
+
+~body+title (regex, includes-word):
+  - "ball"
+
+action: remove
+priority: 9000
+action_reason: 520. Removed due to [{{match}}]   
+
+---
+
+# Report - Sexualized Language
+body+title (regex, includes-word):
+  - "(want to|wanna|would|could|will|gonna|going to) (bang|fuck|bone) (her|him)"
+  - "(cock|dick|penis|slong) falls? off?"
+  - "(dat|that) a(ss|zz|$$)"
+  - "(j[ea]r?c?k|beat)(ing?)? off"
+  - "(mutant|hideous|ugly|butter) face"
+  - "(that|dat) boot(y|ie)"
+  - "(titt?ie?|titt?y|tit)s? (fucks?|fucked)"
+  - "1[0123456789] pound clit(oris)"
+  - "all over (yo|your|ur) face"
+  - "ass (and|&|n|'n') (titties|tits?)"
+  - "atomicbuttdrop.jpeg"
+  - "balance her ass on my face"
+  - "beat that (tranny|trannie)"
+  - "bimbo fight"
+  - "thot"
+  - "bobfoc"
+  - "bust (the|a|thee|da) (fatt?est|fastest|bigg?est|largest)"
+  - "clit"
+  - "clit[\\s_-]*dicks?"
+  - "deep in your mouth"
+  - "deep throath?ed"
+  - "deepthroatable"
+  - "dime store hood"
+  - "dirty tampons?"
+  - "draggin deez nuts"
+  - "eat her out"
+  - "ejaculate"
+  - "fart box"
+  - "fat assed hott(ie|y)"
+  - "fuck her in the (ass|butt)"
+  - "fucking a (girl|guy|man|woman|boy) doggy style"
+  - "gang[\\s_-]*?raped"
+  - "gargg?les on male appendage"
+  - "got a (boner|hardon|stiff|hard rod|woodie)"
+  - "grind (and|&|n|'n') pound"
+  - "heavily padded bras"
+  - "her clit"
+  - "hide the kielbasi"
+  - "honey dicked"
+  - "hooker instincts?"
+  - "horse teeth"
+  - "horse[\\s_-]*(jaw|face)"
+  - "keggel me to death"
+  - "limp wrist(ed)"
+  - "longer than my (cock|dick|penis|slong)"
+  - "looks? like a (hooker|prostitute|whore|slut|skank)"
+  - "lots of (lotion|lubricant)"
+  - "made my (cock|dick|penis|slong) hard"
+  - "mandamie"
+  - "masturb(ate|ation)s?"
+  - "mike in brazil"
+  - "munch rug"
+  - "nbhnc"
+  - "no butt hole no care"
+  - "nuthugging brigade"
+  - "nutsack in(to)? (my|her|him|his) mouth"
+  - "paige van fap"
+  - "panty dripper"
+  - "pee in her (butt|ass)"
+  - "pooter cooter"
+  - "pussy on (the|a) pedestal"
+  - "pussy[\\s_-]*?worship(ing)"
+  - "quite a trench"
+  - "rape (squad|car|van|house)"
+  - "roast beef sammich"
+  - "rug muncher"
+  - "sandwiching? (her|him)"
+  - "sexually aroused"
+  - "she is( so)? fat"
+  - "sign your (cock|dick|penis|slong)"
+  - "skankasau?rus"
+  - "spit or swallow"
+  - "splooge"
+  - "sploosh(ing?)"
+  - "sweaty hog"
+  - "tits (and|&|n|'n') ass"
+  - "tits or gtfo"
+  - "titt[iy] sucking? brigade"
+  - "nice tits"
+  - "tongue punch"
+  - "top or a bottom"
+  - "turd cutter"
+  - "uglier than usual"
+  - "unzips (jeans|pants)"
+  - "wanking to it"
+  - "what a (thot|slut|skank|whore|prostitute|homo)"
+  - "why are their clothes"
+  - "would definitely bang"
+  - "young (dick|cock|penis)"
+
+action: remove
+action_reason: 550. Sexualized Language [{{match}}]
+
+---
+
+# Filter - Sexualized Language
+body+title (regex, includes-word):
+  - 'fuck[\s_-]*bags?'
+  - 'predict butt rape'
+  - 'anal with her'
+  - 'sit on my (face|dick|cock|rod|lap|penis)'
+  - 'cream[\s_-]*pie'
+  - '(cum|semen|jizz|sperm)[\s_-]*?(boxs?|boxes|dumpsters?|cakes?|guzz?ling?|stains?)'
+  - '(stop)? drinking? his (cum|semen|jizz|sperm)'
+  - 'choke on a dildo'
+  - 'cum in (your|ur) eyes?'
+  - '(cum|sperm) on your face'
+  - '(suck|stick|shove|ram|slap|hit) my (cock|dick|penis|slong|one)'
+  - 'asshole on my tongue'
+  - '(cock|dick|penis|slong) in her'
+  - 'sperm burping?'
+  - "(you're|ur|youre|your) a butt plug"
+  - 'what the (cock|dick|penis|slong) wants'
+  - 'queef juices?'
+  - 'fappening'
+  - 'tittygate'
+  - 'titty gate'
+  - 'asianfitgirls'
+  - 'Thiccenzie'
+  - 'roastie'
+  - 'her asshole'
+  - 'smells? tremendous'
+  - 'extra thick'
+  - "groom(ing|ed)?"
+
+action: remove
+priority: 9000
+action_reason: 560. Sexualized Language [{{match}}]
+
+---
+
+#####Filters posts when user is begging for karma.
+
+title (includes-word, regex): ["((give (me|\\s+))|(need|want)|pl(s|z|ease)|can I (get|recieve|have)|kindly) (free)? (karma|kamra|((up|down)?)(\\s+)?vote\\w+)", "(need|want|(pl(s|z|ease)))? [0-9]* (ka(rma|mra)|((up|down)?)(\\s+)?vote\\w+) (need(ed)?|want(ed)?)?"]
+action: remove
+
+---
+
+###Slur detector by Blank-Cheque github.com/Blank-Cheque/Slurs###
+title+body (regex, includes): 
+  - '\b([sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ][a4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ][nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ][dĎďḊḋḐḑD̦d̦ḌḍḒḓḎḏĐđÐðƉɖƊɗᵭᶁᶑȡ])*[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌoÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏІіa4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ]*[gǴǵĞğĜĝǦǧĠġG̃g̃ĢģḠḡǤǥꞠꞡƓɠᶃꬶＧｇqꝖꝗꝘꝙɋʠ]+(l[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]+t+|[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅa4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ]*[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]*|n[ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ0]+[gǴǵĞğĜĝǦǧĠġG̃g̃ĢģḠḡǤǥꞠꞡƓɠᶃꬶＧｇqꝖꝗꝘꝙɋʠ]+|[a4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ]*)*[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+  - '[fḞḟƑƒꞘꞙᵮᶂ]+[aÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ@4]+[gǴǵĞğĜĝǦǧĠġG̃g̃ĢģḠḡǤǥꞠꞡƓɠᶃꬶＧｇqꝖꝗꝘꝙɋʠ]+([ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ0e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅiÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[tŤťṪṫŢţṬṭȚțṰṱṮṯŦŧȾⱦƬƭƮʈT̈ẗᵵƫȶ]+([rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]+[yÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]+|[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]+)?)?[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+  - '\b[kḰḱǨǩĶķḲḳḴḵƘƙⱩⱪᶄꝀꝁꝂꝃꝄꝅꞢꞣ]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌyÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]+[kḰḱǨǩĶķḲḳḴḵƘƙⱩⱪᶄꝀꝁꝂꝃꝄꝅꞢꞣ]+[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]([rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]+[yÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]+|[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]+)?[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+  - '\b[tŤťṪṫŢţṬṭȚțṰṱṮṯŦŧȾⱦƬƭƮʈT̈ẗᵵƫȶ]+[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]+([aÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ4]+[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ]+([iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]+|[yÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]+|[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]+[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]+|[oÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[dĎďḊḋḐḑD̦d̦ḌḍḒḓḎḏĐđÐðƉɖƊɗᵭᶁᶑȡ]+)|[oÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[dĎďḊḋḐḑD̦d̦ḌḍḒḓḎḏĐđÐðƉɖƊɗᵭᶁᶑȡ]+)[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+  - '\b[cĆćĈĉČčĊċÇçḈḉȻȼꞒꞓꟄꞔƇƈɕ]+[ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ0]{2,}[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ]+[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+  - '\b[cĆćĈĉČčĊċÇçḈḉȻȼꞒꞓꟄꞔƇƈɕ]+[hĤĥȞȟḦḧḢḣḨḩḤḥḪḫH̱ẖĦħⱧⱨꞪɦꞕΗНн]+[iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ]+[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ]+[kḰḱǨǩĶķḲḳḴḵƘƙⱩⱪᶄꝀꝁꝂꝃꝄꝅꞢꞣ]+[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+action: remove
+action_reason: 'Contains disallowed word - [{{match}}]'
+
+---
+
+###Slur detector by Blank-Cheque github.com/Blank-Cheque/Slurs###
+title+body (regex): 
+  - '\b([sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ][a4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ][nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ][dĎďḊḋḐḑD̦d̦ḌḍḒḓḎḏĐđÐðƉɖƊɗᵭᶁᶑȡ])?[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ][iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌoÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏІіa4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ][gǴǵĞğĜĝǦǧĠġG̃g̃ĢģḠḡǤǥꞠꞡƓɠᶃꬶＧｇqꝖꝗꝘꝙɋʠ]{1,2}(l[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]t|[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅaÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ][rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ]?|n[ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ0][gǴǵĞğĜĝǦǧĠġG̃g̃ĢģḠḡǤǥꞠꞡƓɠᶃꬶＧｇqꝖꝗꝘꝙɋʠ]|[a4ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ]?)?[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]?\b'
+  - '[fḞḟƑƒꞘꞙᵮᶂ][aÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ@4][gǴǵĞğĜĝǦǧĠġG̃g̃ĢģḠḡǤǥꞠꞡƓɠᶃꬶＧｇqꝖꝗꝘꝙɋʠ]{1,2}([ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ0e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅiÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ][tŤťṪṫŢţṬṭȚțṰṱṮṯŦŧȾⱦƬƭƮʈT̈ẗᵵƫȶ]{1,2}([rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ][yÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]|[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ][iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ][e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ])?)?[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]?\b'
+  - '\b[kḰḱǨǩĶķḲḳḴḵƘƙⱩⱪᶄꝀꝁꝂꝃꝄꝅꞢꞣ][iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌyÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ][kḰḱǨǩĶķḲḳḴḵƘƙⱩⱪᶄꝀꝁꝂꝃꝄꝅꞢꞣ][e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]([rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ][yÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]|[rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ][iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ][e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ])?[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]*\b'
+  - '\b[tŤťṪṫŢţṬṭȚțṰṱṮṯŦŧȾⱦƬƭƮʈT̈ẗᵵƫȶ][rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ][aÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĄ́ą́Ą̃ą̃ĀāĀ̀ā̀ẢảȀȁA̋a̋ȂȃẠạẶặẬậḀḁȺⱥꞺꞻᶏẚＡａ4]+[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ]{1,2}([iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ][e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ]|[yÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ]|[e3ЄєЕеÉéÈèĔĕÊêẾếỀềỄễỂểÊ̄ê̄Ê̌ê̌ĚěËëẼẽĖėĖ́ė́Ė̃ė̃ȨȩḜḝĘęĘ́ę́Ę̃ę̃ĒēḖḗḔḕẺẻȄȅE̋e̋ȆȇẸẹỆệḘḙḚḛɆɇE̩e̩È̩è̩É̩é̩ᶒⱸꬴꬳＥｅ][rŔŕŘřṘṙŖŗȐȑȒȓṚṛṜṝṞṟR̃r̃ɌɍꞦꞧⱤɽᵲᶉꭉ])[sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]?\b'
+  - '\b[cĆćĈĉČčĊċÇçḈḉȻȼꞒꞓꟄꞔƇƈɕ][ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯO͘o͘ȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộO̩o̩Ò̩ò̩Ó̩ó̩ƟɵꝊꝋꝌꝍⱺＯｏ0]{2}[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ][sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]?\b'
+  - '\b[cĆćĈĉČčĊċÇçḈḉȻȼꞒꞓꟄꞔƇƈɕ][hĤĥȞȟḦḧḢḣḨḩḤḥḪḫH̱ẖĦħⱧⱨꞪɦꞕΗНн][iÍíi̇́Ììi̇̀ĬĭÎîǏǐÏïḮḯĨĩi̇̃ĮįĮ́į̇́Į̃į̇̃ĪīĪ̀ī̀ỈỉȈȉI̋i̋ȊȋỊịꞼꞽḬḭƗɨᶖİiIıＩｉ1lĺľļḷḹl̃ḽḻłŀƚꝉⱡɫɬꞎꬷꬸꬹᶅɭȴＬｌ][nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲŊŋꞐꞑꞤꞥᵰᶇɳȵꬻꬼИиПпＮｎ][kḰḱǨǩĶķḲḳḴḵƘƙⱩⱪᶄꝀꝁꝂꝃꝄꝅꞢꞣ][sŚśṤṥŜŝŠšṦṧṠṡŞşṢṣṨṩȘșS̩s̩ꞨꞩⱾȿꟅʂᶊᵴ]?\b'
+action: remove
+action_reason: 'Contains disallowed word "{{match}}"'
+
+---
+
+###Slur detector by Blank-Cheque github.com/Blank-Cheque/Slurs###
+title+body (regex): 
+  - '\b(s[a4]nd)?n[ila4o10][gq]{1,2}(l[e3]t|[e3]r|[a4]|n[o0]g)?s?\b'
+  - 'f[a@4](g{1,2}|qq)([e3il1o0]t{1,2}(ry|r[i1l]e)?)?\b'
+  - '\bk[il1y]k[e3](ry|rie)?s?\b'
+  - '\btr[a4]n{1,2}([i1l][e3]|y|[e3]r)s?\b'
+  - '\bc[o0]{2}ns?\b'
+  - '\bch[i1l]nks?\b'
+action: remove
+action_reason: 'Contains disallowed word "{{match}}"'
+
+---
+
+# [ID-antiBlack] - thug
+#The rest of the ID-antiBlack rule is below -- this one contains a specific exemption
+type: comment
+body (regex, includes):
+  - '\bthugs?\b'
+~title+body (regex, includes-word):
+  - 'ice'
+action: filter
+action_reason: "[ID-antiBlack] anti-Black? [{{match}}]"
+
+---
+
+# [ID-antiBlack]
+type: comment
+body (regex, includes):
+  - '\bn(ea|ei?|[i!*]+)((g|q)+|bb+)((a+r?|e+r|let|nog|u+h?|s)s?)?\b(?#N-word yellowmix 20220216)'
+  - '\bapes\b'
+  - '\bbiden''s america\b'
+  - '\bblack( on black| people moment|.?washing| youth)\b'
+  - '\bblm they said\b'
+  - '\bbI@ccs\b'
+  - '\b(black|blm) at it again\b'
+  - '\bburn loot murder\b'
+  - '\bcertain (areas|people)\b'
+  - '\bcultur(al|e) problem\b'
+  - '\bcry racis(m|t)\b'
+  - '\bdark(ie|y)s?\b'
+  - '\b(dey|di+ndu+|nu+ff(i+)?n.?)\b'
+  - '\bfood stamps?\'
+  - 'groids?\b'
+  - '\bit''s (always blacks|what they do)\b'
+  - '\bjoggers?\b'
+  - '\bjungle bunn\w*\b'
+  - '\bknee.?g'
+  - '\bmake me( a)? racist'
+  - '\bmonkeys\b'
+  - '\bmoon.?crickets?\b'
+  - '\bmost valued part of society\b'
+  - '\bmu+h\b'
+  - '\boo+ga+(.boo+ga+)?\b'
+  - '\bray+(c|s)is+\b'
+  - '\bsame demographic\b'
+  - '\b(poo|shit)skins?\b'
+  - '\bthank( the)? democrats\b'
+  - '\bthe blacks\b'
+  - '\byo(oof|uth)s\b'
+  - '01(0|1)01110 01(0|1)01001 01(0|1)00111 01(0|1)00111 01(0|1)00101 01(0|1)10010(?#N-word binary)'
+  - '\bчернокожий\b(?#black in Russian)'
+  - '\b卐\b'
+action: remove
+action_reason: "[ID-antiBlack] anti-Black? [{{match}}]"
+
+---
+# [ID-BLMcombo]
+type: comment
+body: 'blm'
+body#2 (regex):
+  - 'loot(er|ing)?'
+  - 'riot(er|ing)?s?'
+action: remove
+action_reason: "[ID-BLMcombo] anti-Black? [{{match}}]"
+
+---
+# [ID-NwordStarter]
+type: comment
+is_top_level: true
+body_shorter_than: 2
+body (case-sensitive): 'N'
+action: remove
+action_reason: "[ID-NwordStarter] anti-Black? [{{match}}]"
+
+---
+# [ID-NwordStarterChild] it's a child or Automoderator lags
+type: comment
+body_shorter_than: 2
+body (regex, case-sensitive): '(E|G|I|N|R)'
+action: remove
+action_reason: "[ID-NwordStarterChild] anti-Black? [{{match}}]"
+
+---
+
+# remove potentially racist comments
+type: comment
+body (includes-word): ["ape", "neega", "neegah", "neds"]
+action: remove
+action_reason: "Likely racist phrase/word [{{match}}]"
+
+---
+
+#Removes all the monkey emojis
+type: comment
+body: ["\U0001F412", "\U0001F435", "\U000FE354", "\U0001F649", "\U0001F64A"]
+action: remove
+action_reason: "Potential racist emoji use Bigotry detected [{{match}}] by {{author}}. Their comment- {{body}}"
+  
+---
+
+# Removes the juicebox emoji
+type: comment
+body: ["\U0001F9C3"]
+action: remove
+action_reason: "Juicebox (jews) emoji use Bigotry detected [{{match}}] by {{author}}. Their comment- {{body}}"
+
+---
+
+#Filters sexist comments
+type: comment
+body (includes, regex): ['equal lefts', 'equal fights', 'cheap whore', U+1F375]
+action: filter
+action_reason: likely sexist comment [{{match}}]
+
+---
+
+title+body (regex):
+  - "pike?(ys?|ies)"
+  - "pakis?"
+  - "(ph|f)agg?s?([e0aio]ts?|oted|otry)"
+  - "nigg?s?"
+  - "nigg?[aeoi]s?"
+  - "(ph|f)[@a]gs?"
+  - "n[i!j1e]+gg?(rs?|ett?e?s?|lets?|ress?e?s?|r[a0oe]s?|[ie@ao0!]rs?|r[o0]ids?|ab[o0]s?|erest)"
+  - "j[!i]gg?[aer]+(boo?s?|b00?s?)"
+  - "jigg?[aer]+(b[0o]ing)"
+  - "p[0o]rch\\W?m[0o]nke?(ys?|ies?)"
+  - "g(ooks?|00ks?)"
+  - "k[iy]+kes?"
+  - "b[ea]ne[ry]s?"
+  - "(towel|rag)\\W?heads?"
+  - "wet\\W?backs?"
+  - "dark(e?y|ies?)"
+  - "(shit|mud)\\W?skins?"
+  - "tarbab(ys?|ies?)"
+  - "ape\\W?fricans?"
+  - "lesbos?"
+  - "coons?(y|i?e?s?|er)"
+  - "trann(ys?|ies?)"
+  - "mignorants?"
+  - "lady\\W?boys?"
+  - "spics?"
+  - "you\\s*('?re|r)gay"
+  - "shit\\W?lords?"
+  - "groids?"
+  - "chimpires?"
+  - "mud\\W?childr?e?n?"
+  - "n[1!i]gs?-?"
+  - "gays?(est|ly|er)"
+  - "dune\\W?coone?r?s?"
+  - "high\\W?yellows?"
+  - "shee?\\W?boons?"
+  - "dot\\W?heads?"
+  - "china\\s*m[ae]n"
+  - "queer\\W?bags?"
+  - "ghey"
+  - "fuck\\W?boys?"
+  - "fat\\W?fucks?"
+  - "obeasts?"
+  - "beetusbehemoths?"
+  - "fupas?"
+  - "holo\\W?hoaxe?s?"
+  - "Muslimes?"
+  - "dind[ous]"
+  - "boot\\W?lips?"
+  - "jig\\W?apes?"
+  - "nig\\W?town"
+  - "suspooks?"
+  - "femi\\W?nazis?"
+  - "goys?"
+  - "jew\\W?(tubes?|nited)"
+  - "Shoahs?"
+  - "happy\\W?merchants?"
+  - "heebs?"
+  - "h[i!¡y]mies?"
+  - "book\\W?fags?"
+action: remove
+action_reason: "Slur [{{match}}]"
+
+---
+
+# Possible post/Comment complaining about sub
+title+body: ["this sub", "this subreddit", "unsubscribe", "unsub"]
+action: filter
+action_reason: "Possible Subreddit Complaint [{{match}}]"
+
+---
+
+# Filter forbidden language - Possible Homophobia/etc.
+type: any
+title+body (regex):
+  - '(?#the f-word, short and long versions, with possible separators like f-a-...)((?# F )f(?!(g\b|gg|hgg?|h?gh?t)t?s?\b)f*h?|(?# PH )p(?!hgg?h?t?s?\b)p*h+)(?#only match separators in the short version if the A is there>)(?![^\w@]+h*[\W_]*(?# G )[g69](?![\W_]*g+h*[\W_]*o))[\W_]*(?# optional A )[a4@e3]*(?#notes>)(?!(?<=FA), )h*[\W_]*(?# G )[g69](?!\W(and a pint|ash|break|butt|end|packet|paper|smok\w*)s?\b)(?#notes>)(?!(?<=\bG) ?[=\-]? ? Sol\b)[\W_]*(?# optional G )[g69]*h*[\W_]*(?# optional O+T )([o0a4@e3i1!¡jlu]*[\W_]*[t7]+)?(ed|ing?|[o0a4@e3]ry|r?y|ie(r|st)|(?<=faggot)\w+(?#for unknown combinations))?[s5]?' # (the short no-vowel versions that are ignored at the start are in the "possible slurs" section)
+  - '(?#combinations like bookf**ot/etc.)(?=\w{7})\w+?fagg?(o|e(?<=McFagge))t[s5]?' # (the short version of the word is in the possible hate section because of false positives with video IDs in urls)
+  - '(?#censored version of the f-word [long version] with one non-word character [*, -, #, etc.])(?#  F >  )(f|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  A >  )(a|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  G >  )([g69]|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  optional G >  )([g69]|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))?(?#  O >  )(o|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  T >  )([t7]|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  optional S, no need for symbols since it would match either way >  )[s5]?' # the "(?!\S*?[^a-z0-9\s])" is to only match an asterisk or hyphen if there isn't another one somehwere after [] the "\\*" is in case the asterisk is escaped with a backslash due to Markdown italics
+  - '(?#fabbot, popular misspelling of the f-word)fab+ot[s5]?'
+  - '(?#puffter)p(u|oo)ff?t(er|ah)[s5]?'
+  - '(?#euphemisms/slang)(fudge\W?packer|muff\W?diver|(carpet|rug)\W?muncher|pillow\W?biter|shirt\W?lifter|shit\W?stabber|turd\W?burglar)[s5]?' # (alternative versions in the reporting section)
+  - '(bull)?(?=d[yi]ke)(?<!Van\W(?=Dyke\b))d[yi]ke[s5]?'
+  - '(tr[a@]nn(y|ies?)|trans(v[eai]st[iy]te|mental)|she\W?males?|trapsexual)[s5]?'
+  - 'gaye(st|r)'
+  - '(?#gayboy)gh?[a@4e][yi]\W?((?<=y)boys?|as(?#gay as hell/fuck/shit)|(?#shit)[s5$z]+h+([i1!¡jla]|(?!(eets?|iites?)\b)[i1!¡jle3]{2,})([t7]|(?<!a)z+|\\*[*_])e*)'
+  # "you're gay/what a gay/etc." are in the reporting "you" syntax
+  - 'femboys?'
+  - 'globo\W?homo[s5]?' # globalization with a "gay agenda", promotion of homosexuality
+action: filter
+action_reason: 'Possible homeophobia [{{match}}].'
+#set_locked: true
+
+---
+
+# Filter forbidden language - Possible Ableism.
+type: any
+title+body (regex):
+  - '(?#the r-word)(?=\br)(?<!I am )(?<!I[''‘’´`]m )(?<!\bIm )r+[\W_]*[e3a4@i1!¡jlw]*[\W_]*[t7]+[\W_]*[a4@e3]*[\W_]*r+[\W_]*[dt]+[\W_]*([e3i1!¡jl]+[\W_]*[dt]+[\W_]*)?[s5]?' # includes misspellings like "reatrds" and "rwtard"
+  - '(?#tard/dumbtard/etc.)[t7]+[a4@]+r+d+([s5]|[e3]*d+)*' # (fucktard/asstard/etc. are matched in the "asshole" syntax)
+  - '(?=re)(?#singer>)(?<!Des[''‘’´`])ree+s?\b(?#last name>)(?<!\w (?-i:Rees))(?<!(?-i:Rees(?= [A-Z])))'
+  - 'ass\W?burger[s5]?'
+  - '(nut\W?(case|job)|wack\W?job|mental case)s?'
+  - '(?#you need to get your head checked)((?#your)(y[o0u]+r|ur)|OP (needs to|should) (get|have) \w+)( \S+)? head checked'
+  - '(?#fucked in the head/touched in your head)(touche?d|(?#fucked)(F+|P+h+)([UA4@O0E3I]+|V?(?=[ckq])|\\*[^UA4@O0E3IV\s](?=[ckq]{2,}))+([ckq]+|cuk|g(g|(?=i)))(?#ed)[e3''‘’´`]?[dt](?! up)(?# << End of "fucked"  )) in ((?#the)(th|d)[eai](ir)?|(?#your)(y([o0u]+r|o)|ur)|his|her)( god[\W_]*d?amn?)? (head|brain)'
+  - '(?#seems like..)mental illness to me' # (also see '(it|that|this)[ ''‘’´`]?i?s a mental illness' in the homophobia section)
+  - '(?=schizo)(?<!\b[a''‘’´`i]m a )(?<!I was a )(?<!(?<!t )been a )(?<!I (was always|always was) a )(?<!(\Bas|\b[a''‘’´`i]m) being a )(?<!got a )(?<!\b[a''‘’´`i]m such a )(?<!\b[a''‘’´`i]m too much of a )(?<!(?=feeling)(?<!you )(?<!be )(feel|look|ound)ing like a )(?<!(?=feeling)(?<!you )(?<!be )feeling like such a )(?<!(fe(el|lt)|look|oked|ound|nded)(?<!t you \w{4}) like a )(?<!I (fe(el|lt)|look|oked|ound|nded) like such a )(?<!myself a )(?<!\bme a )(?<!\bUs )(?<!called a )(?<!n[o''‘’´`]t a )(?<![\"“”‟„])(?<!n[o''‘’´`]t )schizo(id|post\w*)?[s5]?'
+action: filter
+action_reason: 'Ableism Keyword: {{match}}. /u/{{author}} said, {{body}}.'
+#set_locked: true
+
+---
+
+# Filter forbidden language - Possible Racism/racial slurs, ethnic bigotry.
+type: any
+title+body (regex):
+  # Resources: http://www.rsdb.org/full / https://en.wikipedia.org/wiki/List_of_ethnic_slurs_and_epithets_by_ethnicity (and/or: https://en.wikipedia.org/wiki/List_of_ethnic_slurs)
+  - '(?#the n-word with a hard r)\w*?(?# N > )[nńǹṅn̈ňñņŉṇṋṉΝ]+(?<!\b[oi]n)(?!(?<=\Bn) (?-i:IG) )[\W_]*(?# Optional I/EE > )([i1!¡jlıíìîïǐĭīĩįḯỉȉȋịᶖḭі]+[\W_]*|([e3éèėêëěĕēẽęȩếềḗḕễḝẻȅȇểẹḙḛệЕе][\W_]*){2,})(?# 2 G‘s > )(g[\W_]*){2,}(?# E > )([e3éèėêëěĕēẽęȩếềḗḕễḝẻȅȇểẹḙḛệЕе][\W_]*)+(?# R > )r+\w*' # with at least 2 g's + the [\W_]* is for possible separators like n-i-..., for African American
+  - '(?#short version of the n-word + variations/combinations of it)[nńǹṅn̈ňñņŉṇṋṉΝ]+[i1!¡jlıíìîïǐĭīĩįḯỉȉȋịᶖḭі]+g+(?![\-*\\])(?# optional suffixes > )([e3]+r+(?<!niger\b)|g+[e3]+|r+([o0ae3]*|r+[o0]+[i1!¡jl]+d+)|r+[e3]+[st]+[e3]*|l*[e3]+[t7]+[e3]*|n+[o0]+g+|town|a+b+[o0]+|[e3]+r+[e3]+s+[t7]+)?s*' # (like niggres/nignog) [] here only 1 g is required and no separators (and mostly no e after the g)
+  - '(?#common misspellings of the n-word)((?#nibber)n[i1!¡jl]b+[e3]r|nygg[e3]r)[s5]?'
+  - '(?#censored version of the n-word with one non-word character [*, -, #, etc.])(?#  N >  )(n|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  I >  )(i|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  2 Gs >  )(g|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s])){2}(?#  E >  )(e|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  R >  )(r|(\\*[*_]|[^\w\s])(?!\S*?[^a-z0-9\s]))(?#  optional S, no need for symbols since it would match either way >  )[s5]?' # the "(?!\S*?[^a-z0-9\s])" is to only match an asterisk or hyphen if there isn't another one somehwere after [] the "\\*" is in case the asterisk is escaped with a backslash due to Markdown italics
+  - '((?#   )c[o0]{2}n(head|town|y|i?e?|er)?|(?#   )(n[e3])?gr[o0][i1!¡jl]d|(?#   )[jz][i1!¡jl](g+(([a4@]|[e3]r)\W?(b([o0]+|u)(ing)?|[o0]{2}ni)|[e3]r)|j+ib[o0]{2})|(?#   )she\W?boon|(?#   )boot\W?lip\w*|(?#   )jungle\W?bunn(y|ie)|(?#   )p[o0]rch\W?m[o0]nk[iey]+|(?#   )spear\W?chucker|(?#   )moon\W?cricket)[s5]?' # for African American
+  - '((dark|black)(e?y|ies)|(?#   )(mud|tar)\W?(skin(?!\W(mask|care))s?|people|child(ren)?|kids?|bab(y|ies))|(?#   )(?#shit)[s5$z]+h+([i1!¡jla]|(?!(eets?|iites?)\b)[i1!¡jle3]{2,})([t7]|(?<!a)z+|\\*[*_])e*[^ \w]?skins?)' # for African American/people with dark skin
+  - '(afri)?coon[sz]*'
+  - 'whiterights'
+  - 'd[ieao]+nd[ou]+([mn]+[oaiu][phf]+[eioau][mn]+[sz]*)?'
+  - 'w[e3]t[\W_]*b[a4@]ck[s5]?' # for Latin American
+  - 'b[e3][a4@e3]n[e3]r[s5]?' # for Mexican/Hispanic
+  - 'sp[i1!¡jl][ck]{1,2}[s5]?' # for Hispanic
+  - '(towel|rag)[\W_]*head[s5]?' # for Muslim/Arab/Sikh/more
+  - '(sand|dune)[\W_]*(n[i1!¡jl]g(?!ht)|c[o0]{2}n|monk[iey]+)\w*' # for desert area, especially Saudi Arabia/African continent
+  - '(sand)?.?n[aei]+g+(ger|ga|a)?.?(nog+|[phf]+[eoia]+g+([ieao]+[tryie]+)?)[sz]*'
+  - '(k[i1!¡jly]ke|hook\W?nose|heeb|yid(?! army))[s5]?' # for Jewish
+  - '(slant(?![^yei\W])\w*\W?eye[sd]?|side\W?ways?\W?(vag(ina)?|puss[yie]+|cooter)s?)' # for East Asian
+  - 'cock.?roach(es)?'
+  - 'parasite[sz]*'
+  - 'ray.?cis(s|t)?'
+  - '(out)?.?breed'
+  - 'anti.?white'
+  - 'katsap[sz]*'
+  - '[ey]?uro([phf]+[eoia]+g+([ieao]+[tryie]+)?[sz]*|trash)'
+  - 'ameri(turd|cunt|[phf]+[eoia]+g+([ieao]+[tryie]+)?)[sz]*'
+  - 'd[ie][mn]+d+[ou]+([mn]+[oui]+[phf]+[ioea]+[nm]+[sz]*)?'
+  - 'g[o0]{2}k(y|eye)?[s5]?' # for Korean/East Asian
+  - 'ch[i1!¡jl]n[ck](y|ie)?[s5]?' # for Chinese/East Asian
+  - '(chinam[ae]n|ching[\W_]*chong)' # for Chinese
+  - 'jap[s5]?' # for Japanese
+  - 'dothead[s5]?' # for Indian (version with a separator in the reporting section)
+  - '(feather\W?head|injun|timber\W?n[i1!¡jl]g(?!ht)\w*)[s5]?' # for Native American
+  - 'greaseball[s5]?' # for Italian/Mediterranean/Southern European/Hispanic
+  - 'guid(o|ette)[s5]?' # for Italian
+  - '(g[yi]p+([poy]|ie)|pik(e?y|er))[s5]?' # for Romani/Irish travellers/Egyptian # for Romani/Irish travellers/Egyptian (other versions are in the reporting section)
+  - 'pol[ao]c?k[s5]?' # for Polish
+  - 'seppo[s5]?' # for American
+  - '((?#   )honk(e?y|ie)(?!\W+tonk)|(?#   )whit(e?y|ie)s(?#singular is in reporting)|(?#   )mayo(nnaise)?\W?monk[iey]+|(?#   )white\W?devil|(?#   )gweilo)[s5]?' # for rural/poor White/Caucasian
+  - '(sheep|goat|donkey)\W?(fuck|shag)\w*'  
+  - '((?#hitler)h[i1!¡jl]tl[e3]r|nazis) ((was|were)( right| ?n[o''‘’´`]?t wrong| ((?#the)(th|d)[eai] (fuckin\S )?)?hero(e?s)?)|did ?n[o''‘’´`]?t do( \S+)? wrong|h(ei|ie)l h[i1!¡jl]tl[e3]r)'
+  - 'holo[\W_]*hoax([e3]?[s5])?' # holocaust denial
+  - '(?=(The holocaust|Genocide|There was))(?<!saying )(?<!say )(?<!that )((?#   )(The holocaust|Genocide) ((didn[ ''‘’´`]?t|never) happened|(is|was) a lie)|(?#   )There was( no|n[ ''‘’´`]?t an?y?)( \w+)? (genocide|holocaust))' # holocaust/genocide denial
+~title+body (regex, includes-word): ['dando', 'raccoons?', 'tycoons?']
+action: filter
+action_reason: 'Racism/Racial Slurs Keyword: {{match}}. /u/{{author}} said, {{body}}.'
+#set_locked: true
+
+---
+
+# Filter forbidden language - Violent Rhetoric
+type: any
+title+body (regex):
+    - '(blow|hang|neck|murder|shoot|drown|r[ao]pe|cut|burn) (the(y|m|ir)|y?o?ur|it|h(i[ms]|er)) ?(sel(f|ves?))'
+    - 'k[yht]s'
+    - '(deserves? to|(hope|wish) (they|(yo)?u|s?he)) ((should|would|could) )?(just )?(fuckin[g'']? |godd?amn? )?(commit (die|suicide)|die[sd]?|(be|g[eo]ts) (fuckin[g'']? |godd?amn? )?(shot|killed|murdered|beat( up)?|raped|run over|hung))'
+    - 'play in (some )?traffic'
+    - 'eat a (bullet|gun)'
+    - 'gu?i?ll?otine?[ds]?'
+    - 'pull the (fuckin[g'']? |godd?amn? )?trigger'
+    - "blow (yo)?urself up"
+    - 'gas (all|the|all the) (jews|kike?l?s|niggers|spi[ck]s)'
+    - "get (a|the) ?(rope|noose)"
+    - "h(a|u)ng (for treason|him|her|them|(yo)?urself)"
+    - "I\\s*hope\\s*(you|she|he|they)\\s*dies?"
+    - "(kill|nuke|glass) ?all"
+    - "gets? found (raped|murdered)"
+    - "defends? a killer"
+    - "take (her|him|his|this) (ass|bastard|bitch) out"
+    - "rot (in hell|in a cell|forever)"
+    - "light them up"
+    - "blows? (the(y|m|ir)|my|y?o?ur|it|h(i[ms]|er)).?((mother|motha|mutha)?.?(fuck[ie]n[g'']?)?)? brains? out"
+    - "drop(ping|s)? the soap"
+    - "cops? (shoot|murder)(ing)? (citizens|people)"
+~title+body (includes-word, regex): ["kills? h(i[ms]|er)) ?(sel(f|ves)?"]    
+ignore_blockquotes: true
+action: filter
+action_reason: 'Violent Rhetoric: [{{match}}]. /u/{{author}} said, {{bodty}}.'
+#set_locked: true
+
+---
+
+
+
+---
+
+#BRIGADE PREVENTION
+
+---
+
+# Possible links to other communities filter
+title+body (regex, includes): ['\b(?!r\/publicfreakout\b)r\/[A-Za-z0-9_]{3,21}\b']
+moderators_exempt: false
+action: remove
+action_reason: "Possible links to other communities {{match}}"
+
+---
+
+######################################### Test code, please ignore. 
+#clubhouse mode. Comment !community in a thread to activate
+
+     type: submission
+     flair_text (includes-word): "Community"
+     comment: |
+      Hello friends. This thread has been set to commmunity participants only. That means that only our regular commenters in good standing may post in this thread.
+     
+      Everyone else's comments will be removed by automod.
+     
+      Entry into the community mode is afforded automatically, based on certain criteria of positive participation. We do not hand out entry on request.
+     comment_stickied: true
+     comment_locked: true
+    
+---
+
+type: comment
+priority: 99
+moderators_exempt: false
+body: "!community"
+author:
+    is_moderator: true
+action: remove
+action_reason: "Community command"
+parent_submission:
+    action: report
+    report_reason: "Community command"
+    overwrite_flair: true
+    set_flair:
+        template_id: 9b56df9e-4185-11ef-9a45-72ba095a4dad
+    
+---
+
+type: submission
+reports: 1
+priority: -10
+flair_text (includes-word): "Clubhouse"
+comment: |
+    Hello friends. This thread has been set to 'Clubhouse' participants only. That means that only our regular commenters in good standing may post in this thread.
+    
+    Everyone else's comments will be removed by automod.
+    
+    Entry into the clubhouse is afforded automatically, based on certain criteria of positive participation. We do not hand out entry on request.
+comment_stickied: true
+comment_locked: true  
+    
+---
+
+type: comment
+parent_submission:
+    flair_text (includes-word): "Community"
+    ~id: [""]
+author:
+    contributor_quality: "< high"
+    comment_subreddit_karma: "< 500"
+    is_contributor: false
+    satisfy_any_threshold: true
+action: remove
+action_reason: community thread
+
+---
+
+    type: submission
+    flair_text (includes-word): "Community"
+    set_post_crowd_control_level: "MEDIUM"
+
+
+######################################################## end clubhouse code
+    
+---
+
+# Violent Word Filter 
+type: any
+body (includes): ['luigi', 'luigid']
+action: filter
+action_reason:  "Check for Violence - [{{match}}]. Ban if necessary."
+
+---
+
+# Remove offending GIPHY gifs
+type: any
+body (includes): ['https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdG1iZDIxM3NybjM0bzJmem1sN3R6cjhmdXdrZDI0YWN1OWRjcWdweCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/XBoYoCVQNBpJe/giphy.gif', 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdG1iZDIxM3NybjM0bzJmem1sN3R6cjhmdXdrZDI0YWN1OWRjcWdweCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/VosWGUIIptLWcigbId/giphy.gif', 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWxjaTl1Z2V3dDkzYzZ0dGtuYzYzaTN4a3psMDF6bnZuenc4bDBzciZlcD12MV9naWZzX3NlYXJjaCZjdD1n/e2ihSM6N5pyzQpOAPz/giphy.gif', 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExamRkbXc1cGZ3MWM0Y2JndHAzanFzeDR0OTI3MXo5YWxhemZtMjh2biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/sUutM8YXva8HS/giphy.gif']
+action: remove
+action_reason:  "Offending gif in comment"
+
+---
+
+#lookalike characters. these are all non-english characters that look like normal ones, including a 0 width space.
+type: any
+title+body (includes, regex): ['[ɑɡΒϹΗΚΑΖΕΜΝΡΤΥνΟϺϹМНОВРΖΚТВ​]']
+action: remove 
+action_reason: trying to avoid automod - [{{match}}]
+
+---
+#### Post-Flair Rules ###
+---
+
+# Set 'US government' flair to posts with keywords
+# type: submission
+# title (includes): ["trump", "donald trump", "musk", "elon musk"]
+# ~flair_text: "US government"                 
+# set_flair:
+# template_id: "7db4f662-f5f1-11ef-b63c-120e1049205b"
+# overwrite_flair: true
+
+---
+
+# Remove gore posts
+#type: submission
+#flair_text: "Gore"
+#action: remove
+#comment: Hi /u/{{author}}, unfortunately gore is no longer allowed.
+#comment_stickied: true
+# no gore flair
+---
+
+# Remove NSFL posts
+# type: submission
+# flair_text: "EXTREME NSFL WARNING"
+# action: remove
+# comment: Hi /u/{{author}}, unfortunately gore is no longer allowed.
+# comment_stickied: true
+
+---
+
+ # Automod-Ban users by setting their flair's CSS class to "a"
+    type: any
+    author:
+        flair_css_class: "a"
+    action: remove
+    action_reason: "Flair banned user"
+    priority: 99
+
+---
+### Domain and Anti-Spam Filters ###
+---
+
+# Spam comments
+body: ["his highschool bully 35 years later"]
+action: spam
+action_reason: Spam link
+
+---
+
+# Blacklist subreddit filter
+moderators_exempt: false
+type: any
+domain+body+url+title (regex): ["r/(ActualPublicFreakouts|ActualPublicFreakout|endoftheworld|BasedJustice|DefundICE|actualfreakouts|PublicFreakoutsReborn|nonewnormal|PublicFreakoutX|PublicFreakouts|WorldNews_Live1|conservative1|6IXWORLDNEWS|Lotuseaters_com|WayoftheBern|BadChoicesGoodStories|InterestingVideoClips|Trumpvirus|InsaneParler|AirRage|QanonKaren|AmericanFascism2020|InsaneVideo|January6|FunnyAtheistMemes|OliverMarkusMalloy|TRUTHsocialWatch|WeirdNews4U|IntrovertComics|oliver|WMAWCBF|badchoices|chodi|exmuslim|bakchodi|IsraelPalestine|ani_bm|antisemitisminreddit|indiaspeaks|kerala|indiannews|indiadiscussion|indiannewsbias|againsthinduphobia|indiaconversionmafia|palestiniancirclejerk|justiceserved|CoronavirusUS|putinwatch|NoahGetTheBoat|BadChoicesGoodStories|InsaneParler|Trumpvirus|InterestingVideoClips|AmericanFascism2020|QanonKaren|InsaneVideo|CoronaVirus_2019_nCoV|January6|OliverMarkusMalloy|Foxhidesinfo|WeirdNews4U|FunnyAtheistMemes|WMAWCBF|DankBidenMemes|IntrovertComics|MemeAlot|FirstInfluencer|jewpiter|cakeproblems|CinnamonrollProblems|NiceburgerProblems|PakistanPeoplzesParty|PMDA|yahoodisabzee|ahomeforplaguerats|NewsAroundYou|BanPitbulls|libsofreddit|AIgonewild|AIGonewild_2024|2024AIGonewild|Palestinian_Violence|IsraelWar|IsraelUnderAttack|IsraelHamas|IsraelUpdates|palestine_vuvuzela|ISR|HaravotBarzel|IsraelIsAlive|IDF|PalestineUnmasked|Palestinesubwatch|ArabIsraeliConflict|israelsubredditwatch|Enough_NaziSpam|NoFascismNoCommunism)"]
+action: remove
+action_reason: "blacklisted subreddits"
+comment_locked: true
+
+---
+
+# Crosspost removals
+type: crosspost submission
+crosspost_subreddit:
+     name: ["ActualPublicFreakouts", "ActualPublicFreakout","endoftheworld","RealPublickFreakouts","BasedJustice", "DefundICE", "actualfreakouts","PublicFreakoutsReborn","nonewnormal","PublicFreakoutX","PublicFreakouts", "WorldNews_Live1", "conservative1", "6IXWORLDNEWS", "Lotuseaters_com", "WayoftheBern", "BadChoicesGoodStories", "InterestingVideoClips", "Trumpvirus", "InsaneParler", "AirRage", "QanonKaren", "AmericanFascism2020", "InsaneVideo", "January6", "FunnyAtheistMemes", "OliverMarkusMalloy", "TRUTHsocialWatch", "WeirdNews4U", "IntrovertComics", "oliver", "WMAWCBF", "badchoices", "chodi", "exmuslim", "bakchodi", "IsraelPalestine", "ani_bm", "antisemitisminreddit", "indiaspeaks", "kerala", "indiannews", "indiadiscussion", "indiannewsbias", "againsthinduphobia", "indiaconversionmafia", "palestiniancirclejerk", "justiceserved", "CoronavirusUS", "putinwatch", "NoahGetTheBoat", "BadChoicesGoodStories", "InsaneParler", "Trumpvirus", "InterestingVideoClips", "AmericanFascism2020", "QanonKaren", "InsaneVideo", "CoronaVirus_2019_nCoV", "January6", "OliverMarkusMalloy", "Foxhidesinfo", "WeirdNews4U", "FunnyAtheistMemes", "WMAWCBF", "DankBidenMemes", "IntrovertComics", "MemeAlot", "FirstInfluencer", "jewpiter", "cakeproblems", "CinnamonrollProblems", "NiceburgerProblems", "PakistanPeoplzesParty", "PMDA", "yahoodisabzee", "ahomeforplaguerats", "NewsAroundYou", "BanPitbulls", "libsofreddit", "AIgonewild", "AIGonewild_2024", "2024AIGonewild", "Palestinian_Violence", "IsraelWar", "IsraelUnderAttack", "IsraelHamas", "IsraelUpdates", "palestine_vuvuzela", "ISR", "HaravotBarzel", "IsraelIsAlive", "IDF", "PalestineUnmasked", "Palestinesubwatch", "ArabIsraeliConflict", "israelsubredditwatch", "Enough_NaziSpam", "NoFascismNoCommunism", "UnfilteredChina", "equalrightsequalleft", "freakingoutFR"]
+action: remove
+action_reason: "more blacklisted subs"
+comment_locked: true
+
+---
+    # Spam Domains
+    domain+title+body (includes):
+        - "videogurr.com"
+        - "zoovus.com"
+        - "sportsnewzz.com"
+        - "sinerv.com"
+        - "slink.co"
+        - "24reporting.net"
+        - "eu247.net"
+        - "dualclutch.gq"
+        - "urlday.com"
+        - "carinspector.cf"
+        - "sixgear.net"
+        - "ip2.network"
+        - "ip2always.win"
+        - "bitchute.com"
+        - "uthermometer.com"
+        - "uthermometer.shop"
+        - "uthermom.com"
+        - "medxsupply.shop"
+        - "cesupplier.com"
+        - "supplierce.com"
+        - "medxsuppliers.com"
+        - "stmpro.online"
+        - "reddits.co"
+        - "crnews.live"
+        - "strn.site"
+    action: spam
+    action_reason: "Spam domain {{match-1}}"
+
+---
+
+# Domain bans/URL shorteners 
+ 
+    domain: [0rz.tw, 0rz.tw, 1-url.net, 1link.in, 1tk.us, 1un.fr, 1url.com, 1url.cz, 1wb2.net, 2.gp, 2.ht, 2ad.in, 2big.at, 2doc.net, 2fear.com, 2pl.us, 2tu.us, 2ty.in, 2u.xf.cz, 2ya.com, 3.ly, 3ra.be, 3x.si, 4i.ae, 4ms.me, 4sq.com, 4url.cc, 4view.me, 5em.cz, 5url.net, 5z8.info, 6fr.ru, 6g6.eu, 6url.com, 7.ly, 7fth.cc, 7li.in, 7vd.cn, 8u.cz, 76.gd, 77.ai, 98.to, 126.am, 307.to, 944.la, a.gg, a.nf, a0.fr, a2a.me, aa.cx, abbr.sk, abbrr.com, abcurl.net, ad-med.cz, ad.vu, ad5.eu, ad7.biz, adb.ug, adcraft.co, adcrun.ch, adf.ly, adfa.st, adfly.fr, adjix.com, adli.pw, adv.li, afx.cc, ajn.me, aka.gr, alil.in, all.fuseurl.com, alturl.com, amzn.to, any.gs, aqva.pl, ar.gy, ares.tl, arst.ch, asso.in, atu.ca, au.ms, ayt.fr, azali.fr, azc.cc, b00.fr, b2l.me, b23.ru, b54.in, bacn.me, baid.us, bc.vc, bcool.bz, bee4.biz, bfy.tw, bim.im, binged.it, bit.do, bit.ly, bitly.com, bitw.in, bizj.us, bkite.com, blap.net, ble.pl, blip.tv, bloat.me, boi.re, bote.me, bougn.at, br4.in, bravo.ly, brk.to, brzu.net, bsa.ly, budurl.com, buk.me, bul.lu, burnurl.com, buzurl.com, bxl.me, bzh.me, c-o.in, cachor.ro, canurl.com, captur.in, catchylink.com, cbs.so, cbug.cc, cc.cc, ccj.im, cf.ly, cf2.me, cf6.co, chilp.it, chzb.gr, cjb.net, cl.lk, cl.ly, clck.ru, cli.gs, cliccami.info, clickmeter.com, clickthru.ca, clikk.in, clop.in, cn86.org, conta.cc, cort.as, cot.ag, couic.fr, cr.tl, crisco.com, crks.me, ctvr.us, cudder.it, cur.lv, curl.im, cut.pe, cut.sk, cutt.eu, cutt.us, cutu.me, cuturl.com, cybr.fr, cyonix.to, d75.eu, daa.pl, dai.ly, db.tt, dd.ma, ddp.net, decenturl.com, dfl8.me, dft.ba, digbig.com, digg.com, disq.us, dld.bz, dlvr.it, do.my, doiop.com, dolp.cc, dopen.us, dopice.sk, droid.ws, dv.gd, dwarfurl.com, dy.fi, dyo.gs, e37.eu, easyuri.com, easyurl.com, easyurl.net, ecra.se, eepurl.com, ely.re, erax.cz, erw.cz, esyurl.com, eweri.com, ewerl.com, ex9.co, ezurl.cc, fa.b, fa.by, fav.me, fb.me, fbshare.me, ff.im, fff.re, fff.to, fff.wf, fhurl.com, filoops.info, filz.fr, fire.to, firsturl.de, firsturl.net, flic.kr, flq.us, fly2.ws, fnk.es, foe.hn, folu.me, fon.gs, freak.to, freze.it, fur.ly, fuseurl.com, fuzzy.to, fwd4.me, fwib.net, g.ro.lt, g00.me, gg.gg, gizmo.do, gl.am, go.9nl.com, go.ign.com, go.usa.gov, go2.me, go2cut.com, goo.gl, goo.lu, google.com/url, goshrink.com, gowat.ch, grem.io, gri.ms, guiama.is, gurl.es, hadej.co, hellotxt.com, hex.io, hide.my, hiderefer.com, hjkl.fr, hmm.ph, hops.me, hover.com, href.in, href.li, hsblinks.com, ht.ly, htxt.it, huff.to, hugeurl.com, hurl.it, hurl.me, hurl.ws, i-2.co, i99.cz, icanhaz.com, icit.fr, ick.li, icks.ro, idek.net, iguang.tw, iiiii.in, iky.fr, ilix.in, info.ms, inreply.to, is.gd, iscool.net, isra.li, iterasi.net, itm.im, its.my, ity.im, ix.lt, ix.sk, j.gs, j.mp, jdem.cz, jieb.be, jijr.com, jmp2.net, jp22.net, jqw.de, just.as, kask.us, kd2.org, kfd.pl, kissa.be, kl.am, klck.me, korta.nu, kr3w.de, krat.si, kratsi.cz, krod.cz, krunchd.com, kuc.cz, kxb.me, l-k.be, l.gg, l9.fr, l9k.net, lat.ms, lc-s.co, lc.cx, lcut.in, lemde.fr, libero.it, lick.my, lien.li, lien.pl, liip.to, liltext.com, lin.cr, lin.io, linkbee.com, linkbun.ch, linkn.co, liurl.cn, llu.ch, ln-s.net, ln-s.ru, lnk.co, lnk.gd, lnk.in, lnk.ly, lnk.ms, lnk.sk, lnkd.in, lnks.fr, lnkurl.com, lnky.fr, lnp.sn, loopt.us, lp25.fr, lru.jp, lt.tl, lurl.no, lvvk.com, m1p.fr, m3mi.com, macte.ch, make.my, mash.to, mcaf.ee, mdl29.net, merky.de, metamark.net, mic.fr, migre.me, minilien.com, miniurl.com, minu.me, minurl.fr, mke.me, moby.to, moourl.com, more.sh, mrte.ch, mut.lu, myloc.me, myurl.in, n.pr, nbc.co, nblo.gs, ne1.net, net.ms, net46.net, nicou.ch, nig.gr, njx.me, nn.nf, not.my, notlong.com, nov.io, nq.st, nsfw.in, nutshellurl.com, nxy.in, nyti.ms, o-x.fr, oc1.us, okok.fr, om.ly, omf.gd, omoikane.net, on.cnn.com, on.mktw.net, onforb.es, orz.se, ou.af, ou.gd, oua.be, ow.ly, p.pw, para.pt, parky.tv, past.is, pd.am, pdh.co, ph.ly, pic.gd, pic.gd tweetphoto, pich.in, pin.st, ping.fm, piurl.com, pli.gs, plots.fr, pm.wu.cz, pnt.me, po.st, politi.co, poprl.com, post.ly, posted.at, pp.gg, ppfr.it, ppst.me, ppt.cc, ppt.li, prejit.cz, prettylinkpro.com, profile.to, ptab.it, ptiturl.com, ptm.ro, pub.vitrue.com, pw2.ro, py6.ru, q.gs, qbn.ru, qicute.com, qlnk.net, qqc.co, qqurl.com, qr.ae, qr.net, qrtag.fr, qte.me, qu.tc, quip-art.com, qxp.cz, qxp.sk, qy.fi, r.im, rb6.co, rb6.me, rcknr.io, rdz.me, read.bi, readthis.ca, reallytinyurl.com, redir.ec, redir.fr, redirects.ca, redirx.com, redu.it, ref.so, reise.lc, relink.fr, retwt.me, ri.ms, rickroll.it, riz.cz, riz.gd, rod.gs, roflc.at, rsmonkey.com, rt.nu, rt.se, ru.ly, rubyurl.com, rurl.org, rww.tw, s-url.fr, s4c.in, s7y.us, s7y.us shrinkify, safe.mn, sagyap.tk, sameurl.com, scrnch.me, sdu.sk, sdut.us, seeme.at, segue.se, sh.st, shar.as, shar.es, sharein.com, sharetabs.com, shink.de, shorl.com, short.cc, short.ie, short.nr, short.pk, short.to, shortlinks.co.uk, shortna.me, shorturl.com, shoturl.us, shout.to, show.my, shrinkify.com, shrinkr.com, shrinkster.com, shrt.fr, shrt.in, shrt.st, shrten.com, shrunkin.com, shw.me, shy.si, sicax.net, simurl.com, sina.lt, sk.gy, skr.sk, skroc.pl, slate.me, smallr.com, smll.co, smsh.me, smurl.name, sn.im, snipr.com, snipurl.com, snsw.us, snurl.com, soo.gd, sp2.ro, spedr.com, spn.sr, sq6.ru, sqrl.it, srnk.net, srs.li, ssl.gs, starturl.com, sturly.com, su.pr, surl.co.uk, surl.hu, surl.me, sux.cz, sy.pe, t.cn, t.lh.com, ta.gd, tabzi.com, tau.pe, tbd.ly, tcrn.ch, tdjt.cz, tgr.me, tgr.ph, thesa.us, thrdl.es, tighturl.com, tin.li, tini.cc, tiniuri.com, tiny.cc, tiny.lt, tiny.ly, tiny.ms, tiny.pl, tiny123.com, tinyarro.ws, tinyarrows.com, tinylink.in, tinytw.it, tinyuri.ca, tinyurl.com, tinyurl.hu, tinyvid.io, tixsu.com, tl.gd, tldr.sk, tllg.net, tmi.me, tnij.org, tnw.to, tny.com, tny.cz, to.ly, to8.cc, togoto.us, tohle.de, totc.us, toysr.us, tpm.ly, tpmr.com, tr.im, tr.my, tr5.in, tra.kz, traceurl.com, trck.me, trick.ly, trkr.ws, trunc.it, turo.us, tweetburner.com, tweez.me, twet.fr, twhub.com, twi.im, twirl.at, twit.ac, twitclicks.com, twitterpan.com, twitterurl.net, twitterurl.org, twitthis.com, twiturl.de, twlr.me, twurl.cc, twurl.nl, u.bb, u.mavrev.com, u.nu, u.to, u6e.de, u76.org, ub0.cc, uby.es, ucam.me, ug.cz, ulmt.in, ulu.lu, unlc.us, updating.me, upzat.com, ur1.ca, url.az, url.co.uk, url.ie, url2.fr, url4.eu, url5.org, url360.me, urlao.com, urlborg.com, urlbrief.com, urlcover.com, urlcut.com, urlenco.de, urlhawk.com, urli.nl, urlin.it, urlkiss.com, urlot.com, urlpire.com, urls.fr, urls.im, urlshorteningservicefortwitter.com, urlx.ie, urlx.org, urlz.fr, urlzen.com, urub.us, usat.ly, use.my, utfg.sk, v.gd, v.ht, v5.gd, vaaa.fr, valv.im, vaza.me, vb.ly, vbly.us, vd55.com, verd.in, vgn.am, vgn.me, viralurl.biz, viralurl.com, virl.com, virl.ws, vl.am, vm.lc, vov.li, vsll.eu, vt802.us, vur.me, vurl.bz, vv.vg, vzturl.com, w1p.fr, w3t.org, w55.de, waa.ai, wapo.st, wapurl.co.uk, wb1.eu, web99.eu, wed.li, wideo.fr, wipi.es, wp.me, wtc.la, wu.cz, ww7.fr, wwy.me, x.co, x.nu, x.se, x.vu, x2c.eu, x2c.eumx, x10.mx, xaddr.com, xav.cc, xeeurl.com, xgd.in, xib.me, xl8.eu, xn--hgi.ws, xoe.cz, xr.com, xrl.in, xrl.us, xt3.me, xua.me, xub.me, xurl.es, xurl.jp, xurls.co, xzb.cc, y.ahoo.it, yagoa.fr, yagoa.me, yatuc.com, yau.sh, ye.pe, yeca.eu, yect.com, yep.it, yfrog.com, yhoo.it, yiyd.com, yogh.me, yon.ir, youfap.me, yourls.org, ysear.ch, yuarel.com, yweb.com, yyv.co, z0p.de, z9.fr, zapit.nu, zeek.ir, zi.ma, zi.mu, zi.pe, zip.net, zipmyurl.com, zkr.cz, zkrat.me, zkrt.cz, zoodl.com, zpag.es, zsms.net, zti.me, zud.me, zurl.ws, zxq.net, zyva.org, substack.com, zz.gd, zzang.kr, zzb.bz, ›.ws] 
+    action: remove
+    action_reason: "Blacklisted Domain/URL Shortener [{{match}}]"
+    comment: |
+        Your submission was removed as a result of a banned domain and/or URL shortener. Feel free to try your submission again without the URL.
+    comment_stickied: true
+    #set_locked: true
+
+---
+
+    # Spam YouTube channels 
+    media_author (includes): [justic served,aww,freeedom,u0430,idiots people,fresh atmosphere]
+    action: spam
+    action_reason: spam youtube channel  
+
+---
+
+# ======================================================
+# ====    WARNING: MODTOOLS RULE; EDIT WITH CARE    ====
+# ======================================================
+# Automatically remove anything that gets 10+ reports and send modmail
+
+reports: 30
+action: remove
+action_reason: Exceeded 30 reports
+modmail_subject: "AutoMod: 30 reports ({{kind}} removed ❌)"
+modmail: |
+    {{permalink}}
+
+    **User:** /u/{{author}}
+
+    **Type:** {{kind}}
+
+    **Post title:** {{title}}
+    
+    **Action Taken:** removed
+
+    **Reports:** 30
+
+    **Comment or self-post body:** {{body}}
+
+---
+# Automatically remove any posts with "Undercover FBI agent gets arrested" (in that order) - requested by /u/AssuredlyAThrowAway 
+title (regex): \b(undercover)\b.+\b(fbi)\b.+\b(agent)\b.+\b(gets)\b.+\b(arrested)\b
+action: remove
+action_reason: Spam/misleading title/misinformation
+---
+# Automatically flair posts related to Israel/Palestine with World Events.
+title: [Israel, Israeli, Israelis, Palestine, Palestinian, Gaza, Hamas, IDF, IOF, Iron Dome]
+set_flair: 
+    template_id: cea330be-a3c2-11f0-92fb-7af6afcae10c
+---
+    domain+body+title: ['https://reddits.co']
+    action: remove
+    action_reason: "Scam link [{{match}}]"
+---
+
+# Auto reply to r/news and r/worldnews
+######################################
+
+type: any
+moderators_exempt: false
+
+title+body (includes-word): ["worldnews", "r/worldnews", "r/ worldnews", "r.worldnews", "r worldnews", "r/news", "r/ news", "r.news", "r news", "world news"]
+comment: |
+    **Looking for a different news sub? Try r/NewsHub where all are welcome.**
+
+comment_stickied: true
+comment_locked: true
+
+---
+
+# Create an alert for posts involving "terrorist" (terrorism event/TOS violation - 2021/08/19)
+title (regex): (ray|roseberry|terrorists?|terrorism)
+type: submission
+action_reason: Potential TOS Violation (terrorism) {{match}}
+modmail_subject: "AutoMod: Potential TOS Violation (terrorism) (review {{kind}} ❓)"
+modmail: |
+    {{permalink}}
+
+    **User:** /u/{{author}}
+
+    **Type:** {{kind}}
+
+    **Post title:** {{title}}
+    
+    **Action Taken:** alert
+    
+    **Match:** {{match}}
+
+    **Comment or self-post body:** {{body}}
+
+---
+
+## BELOW IS CODE FOR FILTERING ELON MUSK/NFT SPAM. ADD SPAM TITLES AS YOU SEE IT
+
+---
+
+type: submission
+title (includes): ["Something that will make many people's dreams come true", "The most uplifting news for many this year", "The most exciting news for many this year", "Something that will make many people's day", "The biggest breakthrough of the year for many", "A life-changing moment for many people", "This could be the answer to many people's prayers", "A life-changing event for many this year", "A reason for many to be optimistic this year", "Something that will make many people's day", "The most positive development for many this year", "The best thing to happen for many in a long time", "A game-changer for many this year", "The most amazing thing to happen this year", "This could be the highlight of the year for many", "Something that will bring joy to many","Lia Thomas", "This could be the opportunity of a lifetime for many", "A ray of hope for many in tough times", "This could be the boost many people need", "A sign of better things to come for many", "The best thing to happen in a while for many", "This could be the start of something great for many", "The ultimate silver lining for many", "A reason for many to celebrate this year", "This could be the turning point for many people", "Something incredible is happening for many", "Something that will put a smile on many faces", "The best news for many in 2023", "Something that will make many people's year","The most uplifting news for many this year","digital assets","extraordinary day that will","nobody thought something"]
+action: remove
+action_reason: "Possible elon musk NFT spam. Please ban"
+
+---
