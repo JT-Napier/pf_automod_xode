@@ -1,1 +1,817 @@
+---
+### Anti-Doxxing ###
+---
 
+# Remove comments that promote doxxing.
+type: comment
+body (includes):  ['make her famous', 'make him famous', 'make them famous', 'name and shame', 'do your thing']
+action: filter
+action_reason: Doxxing promotion - {{match}}
+
+---
+
+# Review websites (potential doxxing/harassment)
+type: comment
+domain+title+body (includes):
+    - "yelp.to"
+    - "gofundme.com"
+    - "givesendgo.com"
+    - "tripadvisor.com"
+    - "g.page" # I think I may regret this one
+    - "us.linkedin.com"
+    - "linkedin.com"
+    - "instagram.com" # I think I may regret this one too, but I can't think of too many legit reasons for Insta to be posted in the comments
+    - "facebook.com" # Maybe safe because there's almost no reason to be posting facebook links in comments?
+    - "contactout.com"
+    - "archive.md" # People have been using this archive site as a doxxing site
+    - "realtor.com"
+action: filter
+action_reason: Potential TOS Violation (harassment) [{{match}}]
+
+---
+
+title+body (regex, includes): ['(?#INT)(\+(?![\s\(]*\d{4})|\b011)[\(\) ._-]{0,3}(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\b([\(\) ._-]{0,3}\d){5,14}\b', '(?#NA)\(?\b1?\d{3}[\) ._-]{1,3}\d{3}[ ._-]{1,3}\d{4}\b', '(?#UK)\b(?<!\bu/)(?<!\d\.)0(1\d\d(\s*\d){7}|1\d{3}(\s*\d){6}|1\d1(\s*\d){7}|11\d(\s*\d){7}|2\d(\s*\d){8}|169\s*77(\s*\d){4}|1\d{3}(\s*\d){5}|3\d\d(\s*\d){7}|7\d(\s*\d){8}|8\d\d(\s*\d){6,7})\b']
+~body (regex): ['(0118\W+999\W+8[18]1|999\W+119\W+7253)', '(?<=\$)\d+(\.\d\d)?[^\w,.]*[+-][^\w,.]*\d+', '(https?://|www\.)\S*([\(\)._-]{0,3}\d){5}\w*', '000.000.0000', '1024\W+2048', '111.111.1111', '222.222.2222', '281\W+330.8004', '505\W+503.4455', '678.999.8212', '800\W+273.8255', '800\W+799.7233', '999.999.9999', '\d*1\W?2\W?3\W?4\W?5\W?6\W?7\W?8\W?9\d*', '\d{3}\W+555\W\d{4}', '\d{3}\W+867.5309', '\w*\d[\)\s]*=\W*\d\w*']
+action: filter
+author:
+  is_contributor: false
+  is_moderator: false
+action_reason: "Phone number detected (rule 1) [{{match}}]"
+
+---
+
+# IPv4 Address Detector
+
+    title+body (regex): ['\b(?!(?#RANGES)(10\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|192\.168\.)|(?#SINGLES)(1\.0\.0\.1|1\.1\.1\.1|1\.2\.3\.4|8\.8\.4\.4|8\.8\.8\.8|9\.9\.9\.9|127\.0\.0\.1|149\.112\.112\.112|208\.67\.220\.220|208\.67\.222\.222)\b)((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\b']
+    action: filter
+    action_reason: "IPv4 address detected (rule 1) [{{match}}]"
+
+---
+### Bad Words and Hate Speech ###
+---
+
+# Removes variations of "retard"
+title+body (regex): (^\s?|\s|[\'\",\.\?()\/\[\-])(((lib|re).?)?tard(ed|s|ation)?)(\s?$|\s|[\'\",\.\?()!\/\]\-])
+action: remove
+action_reason: Rule 4 [{{match}}] by {{author}}. Their comment- {{body}}
+
+---
+
+# Removes phrase "sofa king we todd did"
+title+body (regex): (?i)sofa[\s\W]*king[\s\W]*we[\s\W]*todd[\s\W]*did
+action: remove
+action_reason: Rule 4 [{{match}}]
+
+---
+
+#potential hatespeech; context-dependent 
+    type: any
+    priority: 1
+    title+body+flair_text (includes-word, regex): ['well well well', 'wellx3', 'what do we have here', 'pajeets?']
+    action: filter
+    action_reason: Hatespeech detected - [{{match}}]. {{author}}. Their comment- {{body}}
+    moderators_exempt: false
+
+---
+
+# hate speech 1
+type: any
+priority: 1
+title+body+flair_text (includes-word, regex):
+  - '(nigg?(er|a)?|niggers|nibb?(er|a)?|nibbers|niU+1F171U+1F171?(er|a)?|niU+1F171U+1F171ers|k[iy]ke|beaner|spick?|wetback|^[gobbledy]gook|d[iy]ke|retard|trann(y|ie)?)s?'
+  - '(sand)?n[aei]+g+(ger|ga|a)[sz]*'
+  - 'd[ieao]+nd[ou]+([mn]+[oaiu][phf]+[eioau][mn]+[sz]*)?'
+  - 'spick[sz]+'
+  - 'go+ks?'
+  - 'chinks?'
+  - 'honk(y|ie)s?'
+  - '(afri)?coon'
+  - '(towel|diaper).?heads?'
+  - 'mudslimes?'
+  - 'muzzies?'
+  - 'k[iy]kes?'
+  - '(f(?!g\b|gts\b)|ph)[\x40a]?gg?([e0aio]?tt?)?(ed|in[\x27g]?|r?y)?s?'
+  - 'd[iy]ke'
+  - 'k.i.k(e|e.)'
+  - 'n.i.g.g.e.(r|r.)'
+  - 'auti(sm|stic|st|stically)s?'
+  - 'mayate'
+  - 'kys'
+  - '2550c01'
+  - 'rittenhouse'
+  - 'zionazis?'
+action: remove
+action_reason: Hatespeech flair - [{{match}}]
+moderators_exempt: false
+
+---
+
+#filter homo
+type: any
+moderators_exempt: false
+body+title (regex): ["(?i)\\bhomo(?!\\w*(?:genous|phobia|phobe|phobes|sapien|sapiens|phobic)\\b)\\w*\\b"]
+~body+title (includes, regex): ["homosexual couples?"]
+action: filter
+action_reason: "Potential filtered term: {{match-1}}"
+
+---
+
+type: comment
+body (regex, full-text):
+  - "fucking animals"
+  - "[a-zA-Z]+ (you|up|off?) (shill|shit)"
+  - "(suck|eat) (a|my) (dick|cock)"
+  - "(go)? (kill|fuck) yourself"
+  - "(shill|CTR|cuck|fag) (alert|spotted)"
+  - "CTR/Shareblue"
+  - "They [a-zA-Z]+ shill"
+  - "[s ]+[h ]+[i ]+[l ]+([s ]+?|[z ]+?)?"
+  - "([a-zA-Z]+|CTR / Shariablue) shill"
+  - "You (goyim|goy|fag|bitch|cunt|prick|whore|slut|nigger|dick|faggot(s)?|pussy|cuck|loser)s?"
+  - "[a-zA-Z]+? eat shit [a-zA-Z]+?"
+  - "You mad (aspie|asshole|autist|bimbo|bitch|bitche|butthead|child (rapist|molester)|crazy|cuck|cunt|dick|(dick|cock) (sucker)?|dipshit|dumb|evil|fag|faggot(s)?|fat|gay|goy(im)?|$hill|idiot|knob|lying|moron|nigger|paid clicker|paid poster|pedo|prick|pussy|rapist|retard|retarded|schill|schizophrenic|scumbag|shareblue|shariabloo|shariablue|sharia blue|shill|shithead|sick|SJW|slut|stupid|s-word|whore|worthless|[s ]+[h ]+[i ]+[l ]+([s ]+?|[z ]+?))"
+action: remove
+action_reason: "Abusive language [{{match}}]"
+
+---
+
+# Abusive language filter
+type: comment
+body (includes, regex): [ "OP[^\\.?!]+[ ]is[ ](a|an)[ ](aspie|asshole|autist|bimbo|bitch|bitche|butthead|child (rapist|molester)|crazy|cuck|cunt|dick|(dick|cock) (sucker)?|dipshit|dumb|evil|fag|faggot(s)?|fat|gay|goy(im)?|$hill|idiot|knob|lying|moron|nigger|paid clicker|paid poster|pedo|prick|pussy|rapist|retard|retarded|schill|regarded|schizophrenic|scumbag|shareblue|shariabloo|shariablue|sharia blue|shithead|sick|SJW|slut|stupid|s-word|whore|worthless|zionazi|[s ]+[h ]+[i ]+[l ]+|bag of (dicks|cocks)|troll|loser|creep)" ]
+action: remove
+action_reason: "Abusive language [{{match}}]"
+
+---
+# Abusive language filter 2
+type: comment
+body (includes, regex): [ "Why (cant|can't) you stop (being|sucking)? (a|an)? ([a-zA-Z]+)? (aspie|asshole|autist|bimbo|bitch|bitche|butthead|child (rapist|molester)|crazy|cuck|cunt|dick|(dick|cock) (sucker)?|dipshit|dumb|evil|fag|faggot|fat|gay|goy(im)?|$hill|idiot|knob|lying|moron|nigger|paid clicker|paid poster|pedo|prick|pussy|rapist|retard|retarded|schill|schizophrenic|scumbag|shareblue|shariabloo|shariablue|sharia blue|[s ]+[h ]+[i ]+[l ]+([s ]+?|[z ]+?)|shithead|sick|SJW|slut|stupid|s-word|whore|worthless)s?" ]
+action: remove
+action_reason: "Abusive language [{{match}}]"
+
+---
+
+# OP is a X Filter
+body+title (regex, includes-word):
+  - 'op( is)?( definitely)? a (literal )?(f|ph)[ae3!#%]gg?s?(.t?ts?z?|.t?ted|.t?try|y)?'
+  - 'op is( a)? (failed abortion|retard(ed)?|sad little bitch|stupid)'
+  - 'stupid op'
+  - 'op (you|u) (are|r) an? (asshole|shitlord)'
+  - 'op has (aids|ebola)'
+
+action: remove
+priority: 9000
+action_reason: 540. Filtered due to [{{match}}]
+
+---
+
+# Potential violence
+title+body (regex): (^\s?|\s|[\'\",\.\?()\/\[\-])((?P<callToViolence>((w|sh)ould(a|\'?ve| have|.?of)?|want|need|just|deserve[sd]?) (to)?.?(be)?)\s?(?P<violentAction>(castrate(ed)?|kill(ed)?|knock(ed)?|punch(ed)?|raped?|r[au]n (him|them|her|it)?.?(over|down)|shoo?t)|stomp(ed)?).?(?P<actionTarget>(him|her|them|you|u|it|that|the cops?))?|(shoot the cops?)|(shoot (him|her|them) in))(\s?$|\s|[\'\",\.\?()!\/\]\-])
+~title+body (regex): ["knock on doors?", "knock on the", "knocked on the", "knocked on doors?"]
+action: filter
+action_reason: Potential TOS Violation (violence) [{{match}}]
+
+---
+
+# Potential violence (version two)
+title+body (regex): (^\s?|\s|[\'\",\.\?()\/\[\-])((?P<callToViolence>((w|sh)ould(a|\'?ve| ?have|.?of)?|I.?d|want|need|just|deserve[sd]?|start))(?P<fillerCharacters>[^.,;?]*)?(?P<violentAction>(beat(ing)?|bomb(ing)?|castrate(ed)?| hit|kick(ed)?|kill(ed)?|knock(ed)?|punch(ed)?|raped?|r[au]n (him|them|her|it)?.?(over|down)|shoo?t)|stomp(ed)?)(?P<optionalTarget>(?!.)*(him|her|them|it|chick).?)?|(shoot the cops?)|(shoot (him|her|them) in))(\s?$|\s|[\'\",\.\?()!\/\]\-])
+reports: 1
+action_reason: Potential TOS Violation (violence v2) [{{match}}]
+
+---
+
+# Transphobia
+title+body (regex): 
+    - "mentally.(ill|retard(ed)?|deluded) (wo)?men (who|that) dress (up|like)?.?(wo)?men"
+    - "dudes? in drag"
+    - "put wigs on"
+    - "call themselves (wo)?men.?.?but"
+    - "It's MA'AM"
+    - "ok groomer"
+    - "groomer"
+    - "so a?.?((wo?)m[ae]n|chicks?)"
+    - "so.? a dude"
+    - "that'?s a (man|woman)"
+    - "(dudes?|chicks?) with a?.?wigs?"
+action: filter
+action_reason: "Rule 4 (transphobia) [{{match}}]"
+
+---
+
+# Image posts
+type: submission
+domain: [i.redd.it, imgur.com]
+action: remove
+
+---
+
+type: submission
+body+title+url (regex, includes): ['.(gifv?|jpe?g|png)\b', 'gallery', 'image']
+action: remove
+action_reason: "image [{{match}}] post"  
+
+---
+
+# Evil Word Filter 
+
+type: comment
+body (includes): ['fag', 'nigger', 'niggas', 'tranny', 'slut', 'hoodrat', '13%', "13 %", "13/50", "13/52", 'Dindu', 'nuffin', 'never relax','we wuz', 'n**ger']
+action: filter
+action_reason:  Bigotry detected [{{match}}] by {{author}}. Their comment- {{body}}
+
+---
+
+# Islamophobia Filter
+
+type: comment
+body (includes-word, regex): ['religion of peace', 'what a peaceful religion', 'mostly peaceful', 'peaceful religion', 'Salami lickers?', 'goat fuckers?', 'towelheads?', 'towel heads?', 'terrorist rags?']
+action: filter
+action_reason:  Bigotry detected [{{match}}] by {{author}}. Their comment- {{body}}
+
+---
+
+# Islamophobia Filter - Terrorist
+#type: comment
+#body (includes-word, regex):
+   - 'terrorist'
+#~body (includes-word, regex):
+   - 'terrorist organization'
+   - 'terrorist group'
+#body_longer_than: 50
+#action: filter
+#action_reason:  "Removed word [{{match-1}}]"
+# this is a duplicate rule that covers under and over 50. Only one is needed.
+---
+
+# Islamophobia Filter - Terrorist
+type: comment
+body (includes-word, regex):
+   - 'terrorist'
+~body (includes-word, regex):
+   - 'terrorist organization'
+   - 'terrorist group'
+action: remove
+action_reason:  "Removed word [{{match-1}}]"
+
+---
+
+# Antisemitism Filter
+
+type: comment
+body (includes-word, regex): 
+    - "god's chosen people"
+    - "god's chosen ones"
+    - "greedy jews?"
+    - "3000 years ago"
+    - "3000 year ago"
+    - "3,000 year ago"
+    - "3.000 year ago"
+    - "3,000 years ago"
+    - "3.000 years ago"
+    - "3000 yr ago"
+    - "3000 yrs ago"
+    - "3000yrs ago"
+    - "3000yr ago"
+    - "3 thousand year ago"
+    - "3 thousand years ago"
+    - "promised to him 3000"
+    - "promised to them 3000"
+    - "promised to her 3000"
+    - "jewe?ry"
+    - "k[iy]+kes?"
+action: filter
+action_reason:  "Possible antisemitism: [{{match}}]"
+
+---
+    type: comment
+    author:  
+        ~name: ["TotesMessenger"]     
+    title+body(regex, includes-word): ["clogwog","darkie","darky","datnigga","fuckwhore","fudgepacker","japcrap","jigaboo","jiggabo","jiggy","jijjiboo","jimfish","junglebunny","kaffer","kaffir","kaffre","kafir","kanake","kigger","kike","heeb","hindoo","kyke","koon","kraut","nastyho","nastyslut","nastywhore","nigga","niggah","niggards","niggaz","nigger","niggerhead","niggerhole","niggers","niggers","niggor","nigguh","niggur","niglet","nignog","nigr","nigra","ontherag","poon","poontang","poorwhitetrash","popimp","porchmonkey","pornprincess","polack","pommie","pommy","sandnigger","whitenigger","whop","whorefucker","wigger","wop","zigabo","zipperhead","trisexual","whigger","skankbitch","skankfuck","skankwhore","skanky","skankybitch","skankywhore","mulatto","fuckpig","cockcowboy","cameljockey","carpetmuncher","nudger","shitdick","sooty","spaghettibender","spaghettinigger","twobitwhore","towelhead","tuckahoe","spick","spig","spigotty","spik","hymie","roundeye","raghead","russki","russkie","slopehead","slutting","slutwear","cockqueen","piker","pikey","piky","wetback","puntang","tarbaby","timbernigger","mufflicker","muncher","cuntlick","cuntlicker","cuntlicking","fannyfucker","dyke", "fatfuck","fatfucker","wetback","thot"]
+    ~title+body: ["suspicious", "despicable", "suspicion", "spoon", "spikes?", "spikes", "inconspicuous", "lampooning", "spicy", "animal", "animals"]
+    action: filter
+    priority: 9000
+    action_reason: 440. nasty words filter - [{{match}}] - {{author}}. Their comment- {{body}}
+---
+
+  #Profanity remove
+    body+title (regex, includes-word): ['autists?', 'lesbos?', 'femi[\s_-]*nazis?', 'shit[\s_-]*lords?', '(chick|girl|women|woman)s? with a (cock|dick|penis|slong)s?']
+    ~body+title#good (regex, includes-word): ['thug rose', 'rose thug']
+    action: filter
+    action_reason: 450. Profanity report [{{match}}]
+    
+---
+
+#Profanity remove
+body+title (regex, includes-word):
+   - '(f|ph)[aei3!"#€%&]gg?s?([eo0a!"#€%&]ts?z?|.ted|.try|y)?'
+   - '(f|ph).gg?[\s_-]*magnet'
+   - 'fucking?[\s_-]*retard(ed)?s?'
+   - '(f|ph)ucking?[\s_-]*cunts?'
+   - 'lesbos?'
+   - 'carpet[\s_-]*munchers?'
+   - '(cock|dick)[\s_-]*suckers?'
+   - 'downvoting? (cunt|fagg?.t)'
+   - 'stop being a (f|ph).gg?s?(.ts?z?|.ted|.try)?'
+   - '(f|ph).gg?s?([ioea13!#€%&]ts?z?|.ted|.try|y)?'
+   - '(f|ph).gg?s?(.ts?z?|.ted|.try|y)? nut[\s_-]*huggers?'
+   - '(moral|true|jealous|red?dit)[\s_-]*(f|ph).gg?s?(.ts?z?|.ted|.try|y)?'
+   - 'ghey(ness)?s?'
+   - 'fuck?[\s_-]*wits?'
+   - 'fucking? homo'
+   - 'potato[\s_-]*(f|ph).gg?s?(.ts?z?|.ted|.try|y)?'
+   - 'gay as (fuck|shit)'
+   - 'shut up ugly'
+   - '(quit|stop) being( such)? a (f|ph).gg?s?(.ts?z?|.ted|.try|y)?'
+   - 'fucking? cucks?'
+   - '(ur|your) gay'
+   - 'pretty homosexual'
+   - '(are )?(you|u) (guys )?homo'
+   - 'bunch of homos'
+   - 'gay ass'
+   - 'fake and gay'
+   - 'poofs?'
+   - 'dont be gay'
+   - 'he-bitch'
+   - 'guyborg'
+   - '(mutant|old) trann(ies|y)'
+   - "(you|you'?re?|u r|ur?)( are)? fuc?k?ki?ng? gay"
+   - "fuck you til you love me"
+   - 'zionazis?'
+   - '^\W*typical\W*$'
+action: remove
+action_reason: 460. Profanity filter [{{match}}]
+
+---
+
+#Racism Filter
+body+title (regex, includes-word):
+   - '(curry|feather|sand)?[\s_-]*[Ññn][i3!#€%&ea]gg?.?(h|r|[e3]tt?e?|es?se?|roni|er?|a?|n.gg?|.ro?|r.e?)s?'
+   - 'ni?[*][*]*g?g?a?'
+   - '(curry|feather|sand)[\s_-]*nig?gers?'
+   - 'coons?'
+   - '(black|dark)(e?y|ies?)'
+   - '(shit|mud)[\s_-]*skins?'
+   - 'tar[\s_-]*bab(y|i?e)s?'
+   - '(porch|surrender)[\s_-]*monke?(y|i?e)s?'
+   - 'jig?g[aer](boo?|b00?)s?'
+   - 'jigg?a? a boo?s?'
+   - 'b(e?ae?|ee)ners?'
+   - 'ape[\s_-]*fricans?'
+   - 'coon[\s_-]*town'
+   - 'camel[\s_-]*jocki?e?y?s?'
+   - 'wogs?'
+   - 'g(ooks?|00ks?)'
+   - 'pak(i|ee)s?'
+   - 'heebs?'
+   - 'kraut?'
+   - 'japs?'
+   - 'wops?'
+   - 'spick?s?'
+   - 'abos?'
+   - 'boong?s'
+   - 'chinks?'
+   - 'kaff?irs?'
+   - '(towel|rag)[\s_-]*heads?'
+   - 'pol[\s_-]*facts?'
+   - 'groids?'
+   - 'moll[iy](c|cyrus)'
+   - '@skyeedooee'
+   - 'skye'
+   - 'wet[\s_-]*backs?'
+   - 'chimp[\s_-]*out'
+   - 'chimpin'
+   - 'chimping'
+   - 'chimp'
+   - 'she[\s_-]*boons?'
+   - 'race[\s_-]*traitor'
+   - 'cotton pick(er|ing)'
+   - 'welfare queens?'
+   - 'dindus?'
+   - 'nuffins?'
+   - "din'?t do nuf?fins?"
+   - 'din[\s_-]*d[uo0][\s_-]*nuf?fins?.?'
+   - 'nigger with an? attitude problem'
+   - 'mignorant'
+   - 'holohoax'
+   - "welfare queen'?s?"
+   - 'j[e3]w[\s_-]*bags?'
+   - 'black apes?'
+   - 'mudd?[\s_-]*(sharks?|slimes?)'
+   - '(down|up)jew(ed)?'
+   - 'NiggaMurder'
+   - 'niggativity'
+   - 'white[\s_-]*(powers?|rights?|pride)'
+   - '(anglo[\s_-]*saxon|brown|caucasian|viking)[\s_-]*pride'
+   - 'great[\s_-]*apes?'
+   - 'hood[\s_-]*rats?'
+   - 'boons?'
+   - 'pomm(y|e)'
+   - 'ching chong'
+   - 'allahu? ac?kbar'
+   - 'adelaide[\s_-]*institute'
+   - 'cockroach(es)?'
+   - 'monkey'
+   - 'degenerate'
+   - 'white lives matter'
+   - 'usual suspects?'
+   - 'beat the allegations?'
+   - 'never relax'
+   - 'always them'
+   - 'the fatigue is real'
+   - 'black fatigue'
+   - 'doctors and engineers'
+   - 'offended by everything'
+   - 'ashamed of nothing'
+   - 'entitled to everything'
+   - 'contributing nothing'
+   - 'contributes nothing'
+   - 'watermelon'
+   - 'knickers'
+   - 'knickas'
+parent_submission:
+   ~body+title (regex, includes-word): ['naga', 'nage', 'nogi']
+action: filter
+action_reason: 480. Racism Filter [{{match}}] {{author}}. Their comment- {{body}}
+
+---
+
+#Racism Filter - typical + race/nationality
+#Note that "typical" by itself (no words before or after) is set to remove within the "#Profanity remove" rule above which runs before other rules that filter "typical"
+type: comment
+body+title (regex, includes-word):
+   - 'typical black'
+   - 'typical chinese'
+action: filter
+action_reason: (Automod rule in testing) "typical" + race/nationality [{{match}}]
+
+---
+
+#Racism Filter - character counter (less than 30 characters) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'typical'
+   - 'steretoype'
+   - 'animal'
+   - 'animals'
+body_shorter_than: 30
+action: filter
+action_reason: (Automod rule in testing) Potential racism + less than 30 characters [{{match}}] - {{author}}. Their comment- {{body}}
+
+---
+
+#Racism Filter - potentially racist terms + top level comments (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'typical'
+   - 'stereotype'
+is_top_level: true
+action: filter
+action_reason: (Automod rule in testing) Potential racism + top level [{{match}}]
+
+---
+
+#Racism Filter - potentially racist terms (other) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'typical'
+   - 'stereotype'
+action: report
+action_reason: (Automod rule in testing) Potential racism + not less than 30 characters nor top level [{{match}}]
+
+---
+
+#Racism Filter - potentially racist terms + character count (100+ characters) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'shithole'
+   - 'savages'
+   - 'filth'
+   - 'subhumans?'
+   - 'sub humans?'
+body_longer_than: 100
+action: filter
+action_reason: (Automod rule in testing) [{{match}}] + more than 100 characters
+
+---
+
+#Racism Filter - potentially racist terms + character count (50+ characters) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'culture'
+   - 'shithole'
+   - 'savages'
+   - 'filth'
+   - 'subhumans?'
+   - 'sub humans?'
+body_longer_than: 50
+action: filter
+action_reason: (Automod rule in testing) [{{match}}] + more than 50 characters
+
+---
+
+#Racism Filter - potentially racist term (testing some terms with character requirements) (rule in testing)
+type: comment
+body+title (regex, includes-word):
+   - 'culture'
+   - 'shithole'
+   - 'savages'
+   - 'filth'
+   - 'subhumans?'
+   - 'sub humans?'
+action: remove
+action_reason: culture + less than 50 characters
+
+---
+
+#Racism Filter - testing changes (filters after 2 reports)
+type: comment
+body+title (regex, includes-word):
+   - 'KKK'
+   - 'white(-| )national(ist)?s?'
+   - '50%'
+   - '50 percent'
+   - 'blm'
+   - 'black lives matter'
+   - 'superior race'
+reports: 2
+action: filter
+action_reason: (Automod rule in testing) Check for racism {{match}}
+
+---
+
+#Transphobia Filter - testing changes (filters after 2 reports)
+type: comment
+body+title (regex, includes-word):
+   - '40%'
+   - 'trap'
+reports: 2
+action: filter
+action_reason: (Automod rule in testing) Check for transphobia {{match}}
+
+---
+
+# Profanity removal
+body+title (regex, includes-word):
+  - 'fuck[\s_-]*tards?'
+  - "shut the fuck up"
+  - "deserve to be beaten"
+  - "fat as fuck"
+  - 'shut up (prick|pussy)'
+  - 'dick[\s_-]*wads?'
+  - 'troglodyte'
+  - 'dick farther'
+  - 'down your throat'
+  - "cuntiness"
+  - 'stupid fuck[ _-]*tards?'
+  - "fuck jesus"
+  - "(you|u) dildo"
+  - "heavily retarded"
+  - "cum"
+  - "saying stupid shit"
+  - "(sit down|sit) on my face"
+  - 'mongoloids?'
+
+~body+title (regex, includes-word):
+  - 'stockton (slap )?m(o|u)th(er|a)[\s_-]*f[#*u](c|k)k(a|er)s?.?'
+  - '(bad|badass|dominating|heel hook| jones|surprised?,?|surprised th(em|ose)|tough|209) m(o|u)th(er|a)[\s_-]*f[#*u](c|k)k(a|er)s?.?'
+  - '(shes|hes|she|he)( is)? a m(o|u)th(er|a)[\s_-]*f[#*u](c|k)k(a|er)s?'
+  - "(he's|she's)( is)? a m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s?"
+  - "where (you|u) at,? m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s?"
+  - 'knocks? m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s? out'
+  - "(kicks|knees) can be a m(o|u)th(er|a)[ _-]*f[#*u](c|k)k(a|er)s?"
+  - 'fuck off this thread'
+
+action: remove
+action_reason: 490. Profanity [{{match}}]
+
+---
+
+# Filter, Kill yourself etc
+body+title (regex, includes-word):
+  - "(bitch|cunt) die"
+  - "(butthurt|whiny) little (woman|girl|man|boy|nerd)"
+  - "(choke|hang|kill|killing|shoot|strangle) your?(selfs?|selves?)"
+  - "(dick|c[ao]ck)s? tastes?"
+  - "(drown|suffocate) yourself"
+  - "(hope|wish) (you|it|s?he|they) (dies?|all die|gets? ebola)"
+  - "(lick|suck|gobble) a (dick|cock)"
+  - "(you|u) (cunt|cuck)"
+  - "(you|u) are a moron"
+  - "consider suicide"
+  - "death to (you|u)"
+  - "deserve to (die|be killed|be shot)"
+  - "eat a (bullet|gun)"
+  - "go play in traffic"
+  - "hope (u|you) get (aids|ebola)"
+  - "jump off a cliff"
+  - "jump off a( tall)? (bridge|building)"
+  - "please commit suicide"
+  - "run with something sharp and trip"
+  - "suck a (fat|big|thick) (cock|cack|dick)"
+  - "throw (them|yourself) into the (lake|ocean|sea)"
+action: remove
+priority: 9000
+action_reason: 500. Filtered due to [{{match}}]
+
+---
+
+# Cunt
+body+title (regex, includes-word):
+  - "(annoying|brain[\\s_-]*dead|chubby|creepy|cry[\\s_-]*baby|deaf|dumb|dumbster|dumpster|fake|fat|fucking?|fake|ignorant|imm?ature|inbred|liberal|libtard|miserable|obnoxious|pointless?|pompous|pretentious|stupid|timid|thunder|turbo|upp?itt?y|uptight|weak willed|whiny)[\\s_-]*(cunts?|cunty)"
+  - "(ur|u r|you are|you'?re?) a cunt"
+  - "(you|u) are being a (cunt|twat)"
+  - "[ck]unt[\\s_-]*(bag|nazi)"
+  - "cunt ass whore"
+  - "cunt[\\s_-]*(bags?|rags?)"
+  - "cunts? about it"
+  - "cunts? like (you|u)"
+  - "cunty title"
+  - "don'?t be a? cunt"
+  - "dumb( fucking?)? (twat|cunt)"
+  - "sanctimonious cunts?"
+  - "spastic (cunt|twat)s?"
+  - "you're a cunt"
+  - "you're being a (cunt|twat)"
+action: remove
+priority: 9000
+action_reason: 510. Filtered due to [{{match}}]
+    
+---    
+
+# Cock Penis Related
+body+title (regex, includes-word):
+  - "(ball|cum|jizz|semen|sperm|cock) (gobb?lers?|guzz?lers?)"
+  - "(cocks?|dicks?|penis) out of your"
+  - "(cocks?|dicks?|penis|slongs?) in your mouth"
+  - "(cocks?|dicks?|penis|slongs?)[\\s_-]*breath"
+  - "(cock|dick)[\\s_-]*sucking?"
+  - "(cock|dick|penis|slong)[\\s_-]*holes?"
+  - "(cum|jizz|semen|sperm) ch[au]mps?"
+  - "(dicks?|cocks?|penis) down your throat"
+  - "(dicks?|cocks?|penis) in your a(zz|ss)hole"
+  - "(dicks?|cocks?|penis) out of your mouth"
+  - "(dicks?|cocks?|penis) your ass"
+  - "(dick|cock|penis) chopped off"
+  - "blowing bubbles with his (cum|jizz|semen|sperm)"
+  - "burning? dick[\\s_-]*hole"
+  - "cock out of (her|his) mouth"
+  - "cumshot"
+  - "eat a (dicks?|cocks?|penis)"
+  - "eat a huge bag of (cocks?|dicks?|penis|slongs?)"
+  - "forced to suck"
+  - "fuck did you cocks?"
+  - "how small is your (cock|dick|penis)"
+  - "she still sucking"
+  - "stop sucking? (cocks?|dicks?|penis|slongs?)"
+  - "suck dick bro"
+  - "suck his (cocks?|dicks?|penis|slongs?)"
+  - "wanna see my (cock|dick|penis|slong)"
+  - "want some of my (cock|dick|penis)"
+
+~body+title (regex, includes-word):
+  - "ball"
+
+action: remove
+priority: 9000
+action_reason: 520. Removed due to [{{match}}]   
+
+---
+
+# Report - Sexualized Language
+body+title (regex, includes-word):
+  - "(want to|wanna|would|could|will|gonna|going to) (bang|fuck|bone) (her|him)"
+  - "(cock|dick|penis|slong) falls? off?"
+  - "(dat|that) a(ss|zz|$$)"
+  - "(j[ea]r?c?k|beat)(ing?)? off"
+  - "(mutant|hideous|ugly|butter) face"
+  - "(that|dat) boot(y|ie)"
+  - "(titt?ie?|titt?y|tit)s? (fucks?|fucked)"
+  - "1[0123456789] pound clit(oris)"
+  - "all over (yo|your|ur) face"
+  - "ass (and|&|n|'n') (titties|tits?)"
+  - "atomicbuttdrop.jpeg"
+  - "balance her ass on my face"
+  - "beat that (tranny|trannie)"
+  - "bimbo fight"
+  - "thot"
+  - "bobfoc"
+  - "bust (the|a|thee|da) (fatt?est|fastest|bigg?est|largest)"
+  - "clit"
+  - "clit[\\s_-]*dicks?"
+  - "deep in your mouth"
+  - "deep throath?ed"
+  - "deepthroatable"
+  - "dime store hood"
+  - "dirty tampons?"
+  - "draggin deez nuts"
+  - "eat her out"
+  - "ejaculate"
+  - "fart box"
+  - "fat assed hott(ie|y)"
+  - "fuck her in the (ass|butt)"
+  - "fucking a (girl|guy|man|woman|boy) doggy style"
+  - "gang[\\s_-]*?raped"
+  - "gargg?les on male appendage"
+  - "got a (boner|hardon|stiff|hard rod|woodie)"
+  - "grind (and|&|n|'n') pound"
+  - "heavily padded bras"
+  - "her clit"
+  - "hide the kielbasi"
+  - "honey dicked"
+  - "hooker instincts?"
+  - "horse teeth"
+  - "horse[\\s_-]*(jaw|face)"
+  - "keggel me to death"
+  - "limp wrist(ed)"
+  - "longer than my (cock|dick|penis|slong)"
+  - "looks? like a (hooker|prostitute|whore|slut|skank)"
+  - "lots of (lotion|lubricant)"
+  - "made my (cock|dick|penis|slong) hard"
+  - "mandamie"
+  - "masturb(ate|ation)s?"
+  - "mike in brazil"
+  - "munch rug"
+  - "nbhnc"
+  - "no butt hole no care"
+  - "nuthugging brigade"
+  - "nutsack in(to)? (my|her|him|his) mouth"
+  - "paige van fap"
+  - "panty dripper"
+  - "pee in her (butt|ass)"
+  - "pooter cooter"
+  - "pussy on (the|a) pedestal"
+  - "pussy[\\s_-]*?worship(ing)"
+  - "quite a trench"
+  - "rape (squad|car|van|house)"
+  - "roast beef sammich"
+  - "rug muncher"
+  - "sandwiching? (her|him)"
+  - "sexually aroused"
+  - "she is( so)? fat"
+  - "sign your (cock|dick|penis|slong)"
+  - "skankasau?rus"
+  - "spit or swallow"
+  - "splooge"
+  - "sploosh(ing?)"
+  - "sweaty hog"
+  - "tits (and|&|n|'n') ass"
+  - "tits or gtfo"
+  - "titt[iy] sucking? brigade"
+  - "nice tits"
+  - "tongue punch"
+  - "top or a bottom"
+  - "turd cutter"
+  - "uglier than usual"
+  - "unzips (jeans|pants)"
+  - "wanking to it"
+  - "what a (thot|slut|skank|whore|prostitute|homo)"
+  - "why are their clothes"
+  - "would definitely bang"
+  - "young (dick|cock|penis)"
+
+action: remove
+action_reason: 550. Sexualized Language [{{match}}]
+
+---
+
+# Filter - Sexualized Language
+body+title (regex, includes-word):
+  - 'fuck[\s_-]*bags?'
+  - 'predict butt rape'
+  - 'anal with her'
+  - 'sit on my (face|dick|cock|rod|lap|penis)'
+  - 'cream[\s_-]*pie'
+  - '(cum|semen|jizz|sperm)[\s_-]*?(boxs?|boxes|dumpsters?|cakes?|guzz?ling?|stains?)'
+  - '(stop)? drinking? his (cum|semen|jizz|sperm)'
+  - 'choke on a dildo'
+  - 'cum in (your|ur) eyes?'
+  - '(cum|sperm) on your face'
+  - '(suck|stick|shove|ram|slap|hit) my (cock|dick|penis|slong|one)'
+  - 'asshole on my tongue'
+  - '(cock|dick|penis|slong) in her'
+  - 'sperm burping?'
+  - "(you're|ur|youre|your) a butt plug"
+  - 'what the (cock|dick|penis|slong) wants'
+  - 'queef juices?'
+  - 'fappening'
+  - 'tittygate'
+  - 'titty gate'
+  - 'asianfitgirls'
+  - 'Thiccenzie'
+  - 'roastie'
+  - 'her asshole'
+  - 'smells? tremendous'
+  - 'extra thick'
+  - "groom(ing|ed)?"
+
+action: remove
+priority: 9000
+action_reason: 560. Sexualized Language [{{match}}]
+
+---
+### Post Restrictions ###
+---
+
+# Removes áçtualpublicfreakoúts 
+title+body (regex): (^\s?|\s|[\'\",\.\?()/\[\-])((a|á)(c|ç)tu(a|á)l\s?publi(c|ç)\s?fre(a|á)ko(u|ú)ts?)(\s?$|\s|[\'\",\.\?()!/\]\-])
+action: remove
+action_reason: Advertising other subreddits
